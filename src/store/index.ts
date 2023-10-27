@@ -1,10 +1,11 @@
-// store.ts
 import userSessionReducer from '@/features/userSession/userSessionSlice';
+import calendarReducer from '@/features/calendarDate/calendarDateSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
   reducer: {
     userSession: userSessionReducer,
+    calendarDate: calendarReducer
   },
 });
 
