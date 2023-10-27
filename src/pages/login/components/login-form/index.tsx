@@ -1,11 +1,16 @@
 import { setCalendarDate } from "@/features/userSession/userSessionSlice";
-import api from "@/services/api";
 import { Button, Input, Spin, notification } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Container, LoginContainer } from "./style";
 import { LoadingOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import {
+    USER_ID_KEY,
+    USER_NAME_KEY,
+    USER_TOKEN_KEY,
+} from "@/constants/storage-keys";
+import { login } from "@/services/user";
 
 type LoginPayload = {
     email: string;
@@ -27,14 +32,19 @@ const LoginForm = () => {
     const handleLogin = async () => {
         try {
             setLoading(true);
-            const res = await api.post("/user/login", {
-                email: loginPayload.email,
-                password: loginPayload.password,
-            });
-            dispatch(setCalendarDate(res?.data));
+            const response = await login(
+                loginPayload.email,
+                loginPayload.password
+            );
+            dispatch(setCalendarDate(response?.data));
             localStorage.setItem(
-                "@Kanbanbu:userSession",
-                JSON.stringify(res?.data)
+                USER_TOKEN_KEY,
+                JSON.stringify(response.data.token)
+            );
+            localStorage.setItem(USER_ID_KEY, JSON.stringify(response.data.id));
+            localStorage.setItem(
+                USER_NAME_KEY,
+                JSON.stringify(response.data.name)
             );
             setLoading(false);
         } catch (error: any) {
@@ -58,7 +68,7 @@ const LoginForm = () => {
     return (
         <Container>
             <div className="logo">
-                <h1>StudyNizer</h1>
+                <h1>Kanbanbu</h1>
             </div>
             <LoginContainer>
                 <h1>Login</h1>
