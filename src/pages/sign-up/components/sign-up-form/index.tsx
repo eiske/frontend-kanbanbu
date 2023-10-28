@@ -2,13 +2,21 @@ import { useState } from "react";
 import { Container, FormContainer } from "./index.style";
 import { Button, Input } from "antd";
 import Link from "next/link";
+import useUser from "@hooks/use-user";
 
 const SignUpForm = () => {
+    const {fetching, signUp} = useUser()
     const [form, setForm] = useState({
         name: "",
         email: "",
         password: "",
     });
+
+    const handleSignUp = async () => {
+        await signUp(form.name, form.email, form.password)
+    }
+
+    const disableButton = form.name.trim() === "" || form.email.trim() === "" || form.password.trim() === "";
 
     return (
         <Container>
@@ -36,7 +44,7 @@ const SignUpForm = () => {
                         setForm({ ...form, password: e.target.value })
                     }
                 />
-                {/* <Button disabled={textsBlank ? true : false} type='primary' onClick={handleSignUp}>Cadastrar</Button> */}
+                <Button disabled={disableButton} loading={fetching} type='primary' onClick={handleSignUp}>Cadastrar</Button>
                 <Link href="/login">
                     <Button>Login</Button>
                 </Link>

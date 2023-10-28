@@ -11,12 +11,8 @@ type LoginPayload = {
     password: string;
 };
 
-const antIcon = (
-    <LoadingOutlined style={{ fontSize: 24, color: "#fff" }} spin />
-);
-
 const LoginForm = () => {
-    const { login, isLoading, signed } = useUser();
+    const { login, fetching, signed } = useUser();
     const router = useRouter();
     const [loginPayload, setLoginPayload] = useState<LoginPayload>({
         email: "",
@@ -33,7 +29,7 @@ const LoginForm = () => {
         await login(loginPayload.email, loginPayload.password);
     };
 
-    const textsBlank =
+    const disableButton =
         loginPayload.email?.trim() === "" ||
         loginPayload.password?.trim() === "";
 
@@ -66,11 +62,12 @@ const LoginForm = () => {
                     }
                 />
                 <Button
-                    disabled={textsBlank ? true : false}
+                    disabled={disableButton}
                     type="primary"
                     onClick={handleLogin}
+                    loading={fetching}
                 >
-                    {!isLoading ? "Entrar" : <Spin indicator={antIcon} />}
+                    Entrar
                 </Button>
                 <Link href="/sign-up">
                     <Button>Cadastrar</Button>
