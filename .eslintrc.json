@@ -1,28 +1,78 @@
 {
-  "env": {
-    "browser": true,
-    "es2020": true,
-    "jest": true,
-    "node": true
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "extends": [
-    "next/babel",
-    "next/core-web-vitals",
-    "plugin:testing-library/react",
-    "plugin:jest-dom/recommended"
-  ],
-  "rules": {
-    "indent": [
-      "error",
-      4,
-      {
-        "SwitchCase": 1
-      }
+    "env": {
+        "browser": true,
+        "es2020": true,
+        "jest": true,
+        "node": true
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "next/babel",
+        "next/core-web-vitals",
+        "airbnb",
+        "plugin:@next/next/recommended",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
-  }
+
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "keyword-spacing": "error",
+        "no-trailing-spaces": "error",
+        "space-before-blocks": [
+            "error",
+            {
+                "functions": "always",
+                "keywords": "always",
+                "classes": "always"
+            }
+        ],
+        "object-curly-newline": [
+            "error",
+            {
+                "ObjectExpression": {
+                    "consistent": true
+                },
+                "ObjectPattern": {
+                    "consistent": true
+                },
+                "ImportDeclaration": {
+                    "multiline": true,
+                    "minProperties": 4
+                },
+                "ExportDeclaration": {
+                    "multiline": true,
+                    "minProperties": 4
+                }
+            }
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "always-multiline",
+                "objects": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline",
+                "functions": "never"
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4]
+    }
 }
