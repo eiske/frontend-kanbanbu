@@ -41,7 +41,7 @@ export const LoginContainer = styled.div`
         width: 90%;
     }
 
-    h1 {
+    h2 {
         font-weight: bold;
     }
 
@@ -49,6 +49,10 @@ export const LoginContainer = styled.div`
     button {
         margin: 10px 0;
         width: 100%;
+    }
+
+    input[type="password"] {
+        margin: 5px 0;
     }
 
     a {
