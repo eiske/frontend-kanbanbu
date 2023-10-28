@@ -12,10 +12,7 @@ export const Container = styled.div`
         width: 50%;
         text-align: center;
         margin-top: 10px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
+        border-radius: 4px 4px 0 0;
 
         @media (max-width: 640px) {
             width: 90%;
@@ -30,7 +27,7 @@ export const Container = styled.div`
     }
 `;
 
-export const LoginContainer = styled.div`
+export const FormContainer = styled.div`
     text-align: center;
     background: lightgray;
     border-radius: 5px;
@@ -52,7 +49,7 @@ export const LoginContainer = styled.div`
     }
 
     input[type="password"] {
-        margin: 5px 0;
+        margin: 5px;
     }
 
     a {
