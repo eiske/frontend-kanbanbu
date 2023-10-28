@@ -1,16 +1,10 @@
-import { setCalendarDate } from "@/features/userSession/userSessionSlice";
 import { Button, Input, Spin, notification } from "antd";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Container, LoginContainer } from "./style";
+import { useEffect, useState } from "react";
+import { Container, LoginContainer } from "./index.style";
 import { LoadingOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import {
-    USER_ID_KEY,
-    USER_NAME_KEY,
-    USER_TOKEN_KEY,
-} from "@/constants/storage-keys";
-import { login } from "@/services/user";
+import useUser from "@hooks/use-user";
+import { useRouter } from "next/router";
 
 type LoginPayload = {
     email: string;
@@ -22,45 +16,23 @@ const antIcon = (
 );
 
 const LoginForm = () => {
+    const { login, isLoading, signed } = useUser();
+    const router = useRouter();
     const [loginPayload, setLoginPayload] = useState<LoginPayload>({
         email: "",
         password: "",
     });
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (signed) {
+            router.push("/");
+        }
+    }, [signed]);
 
     const handleLogin = async () => {
-        try {
-            setLoading(true);
-            const response = await login(
-                loginPayload.email,
-                loginPayload.password
-            );
-            dispatch(setCalendarDate(response?.data));
-            localStorage.setItem(
-                USER_TOKEN_KEY,
-                JSON.stringify(response.data.token)
-            );
-            localStorage.setItem(USER_ID_KEY, JSON.stringify(response.data.id));
-            localStorage.setItem(
-                USER_NAME_KEY,
-                JSON.stringify(response.data.name)
-            );
-            setLoading(false);
-        } catch (error: any) {
-            notification.info({
-                message: `${
-                    error?.response?.data?.error === undefined
-                        ? "Serviço indisponível"
-                        : error?.response?.data?.error
-                }`,
-                placement: "top",
-            });
-            setLoading(false);
-        } finally {
-            setLoading(false);
-        }
+        await login(loginPayload.email, loginPayload.password);
     };
+
     const textsBlank =
         loginPayload.email?.trim() === "" ||
         loginPayload.password?.trim() === "";
@@ -71,7 +43,7 @@ const LoginForm = () => {
                 <h1>Kanbanbu</h1>
             </div>
             <LoginContainer>
-                <h1>Login</h1>
+                <h2>Login</h2>
                 <Input
                     placeholder="Email"
                     value={loginPayload.email}
@@ -98,7 +70,7 @@ const LoginForm = () => {
                     type="primary"
                     onClick={handleLogin}
                 >
-                    {!loading ? "Entrar" : <Spin indicator={antIcon} />}
+                    {!isLoading ? "Entrar" : <Spin indicator={antIcon} />}
                 </Button>
                 <Link href="/sign-up">
                     <Button>Cadastrar</Button>
