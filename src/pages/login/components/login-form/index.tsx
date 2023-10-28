@@ -1,6 +1,6 @@
 import { Button, Input, Spin, notification } from "antd";
 import { useEffect, useState } from "react";
-import { Container, LoginContainer } from "./index.style";
+import { Container, FormContainer } from "./index.style";
 import { LoadingOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import useUser from "@hooks/use-user";
@@ -42,7 +42,7 @@ const LoginForm = () => {
             <div className="logo">
                 <h1>Kanbanbu</h1>
             </div>
-            <LoginContainer>
+            <FormContainer>
                 <h2>Login</h2>
                 <Input
                     placeholder="Email"
@@ -75,7 +75,7 @@ const LoginForm = () => {
                 <Link href="/sign-up">
                     <Button>Cadastrar</Button>
                 </Link>
-            </LoginContainer>
+            </FormContainer>
         </Container>
     );
 };
