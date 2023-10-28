@@ -4,14 +4,17 @@ import {
     USER_NAME_KEY,
     USER_TOKEN_KEY,
 } from "@constants/storage-keys";
-import { login } from "@services/user";
+import { login, signUp } from "@services/user";
 import { setUserInfo } from "@features/userSession/userSessionSlice";
 import { useEffect, useState } from "react";
 import { notification } from "antd";
+import { useRouter } from "next/router";
 
 const useUser = () => {
     const dispatch = useDispatch();
-    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const [isLogin, setIsLogin] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(false);
     const [signed, setSigned] = useState(false);
 
     useEffect(() => {
@@ -20,7 +23,7 @@ const useUser = () => {
 
     const userLogin = async (email: string, password: string) => {
         try {
-            setIsLoading(true);
+            setIsLogin(true);
             const response = await login(email, password);
             localStorage.setItem(
                 USER_TOKEN_KEY,
@@ -42,14 +45,40 @@ const useUser = () => {
                 placement: "top",
             });
         } finally {
-            setIsLoading(false);
+            setIsLogin(false);
+        }
+    };
+
+    const userSignUp = async (
+        name: string,
+        email: string,
+        password: string
+    ) => {
+        try {
+            setIsSignUp(true);
+            await signUp(name, email, password);
+            notification.success({
+                message: `Usuário cadastrado!`,
+                placement: "top",
+            });
+            router.push("/login");
+        } catch (error: any) {
+            notification.info({
+                message: `${
+                    error?.response?.data?.error === undefined
+                        ? "Serviço indisponível"
+                        : error?.response?.data?.error
+                }`,
+                placement: "top",
+            });
         }
     };
 
     return {
         login: userLogin,
+        signUp: userSignUp,
         signed,
-        isLoading,
+        fetching: isLogin || isSignUp,
     };
 };
 
