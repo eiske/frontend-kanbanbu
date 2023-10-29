@@ -3,6 +3,9 @@ import useUser from ".";
 import { Provider } from "react-redux";
 import store from "@/store";
 import { notification } from "antd";
+import { login, signUp } from "@services/user";
+
+const mockLoginService = { login, signUp };
 
 jest.mock("next/router", () => ({
     useRouter: () => ({
@@ -12,9 +15,14 @@ jest.mock("next/router", () => ({
 
 jest.mock("@services/user", () => ({
     login: jest.fn(),
+    signUp: jest.fn(),
 }));
 
-const spyNotification = jest.spyOn(notification, "info");
+const spyLogin = jest.spyOn(mockLoginService, "login");
+const spySignUp = jest.spyOn(mockLoginService, "signUp");
+
+const spyNotificationInfo = jest.spyOn(notification, "info");
+const spyNotificationSuccess = jest.spyOn(notification, "success");
 
 const getUseUserHook = () => {
     const { result } = renderHook(() => useUser(), {
@@ -25,6 +33,9 @@ const getUseUserHook = () => {
 
     return { result };
 };
+
+const email = "test@example.com";
+const password = "password";
 
 describe("useUser", () => {
     it("should return an object with login, signUp, signed and fetching properties", () => {
@@ -38,15 +49,52 @@ describe("useUser", () => {
 
     it("should show error notification when login function fails", async () => {
         const { result } = getUseUserHook();
-        const email = "test@example.com";
-        const password = "password";
 
         await act(async () => {
             await result.current.login(email, password);
         });
-        expect(spyNotification).toHaveBeenCalledWith({
+
+        expect(spyNotificationInfo).toHaveBeenCalledWith({
             message: "Serviço indisponível",
             placement: "top",
         });
+    });
+
+    it("should set user info in localSotage and show success notification", async () => {
+        const { result } = getUseUserHook();
+        const loginResponse = {
+            data: {
+                id: "id123",
+                name: "Dog",
+                token: "token123",
+            },
+        };
+        spyLogin.mockResolvedValue(loginResponse as any);
+
+        await act(async () => {
+            await result.current.login(email, password);
+        });
+
+        expect(spyLogin).toHaveBeenCalled();
+    });
+
+    it("should sign up the user", async () => {
+        const { result } = getUseUserHook();
+        spySignUp.mockResolvedValue({} as any);
+        await act(async () => {
+            await result.current.signUp("Diana", email, password);
+        });
+
+        expect(spyNotificationSuccess).toBeCalled();
+    });
+
+    it("should show error on sign up the user", async () => {
+        const { result } = getUseUserHook();
+        spySignUp.mockRejectedValue({} as any);
+        await act(async () => {
+            await result.current.signUp("Diana", email, password);
+        });
+
+        expect(spyNotificationInfo).toBeCalled();
     });
 });
