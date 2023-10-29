@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -27,7 +28,7 @@ export const Container = styled.div`
     }
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled(Form)`
     text-align: center;
     background: lightgray;
     border-radius: 5px;
@@ -42,18 +43,12 @@ export const FormContainer = styled.div`
         font-weight: bold;
     }
 
-    input,
-    button,
-    span.ant-input-password {
+    button {
         margin: 10px 0;
         width: 100%;
     }
 
     input[type="password"] {
         margin: 0;
-    }
-
-    a {
-        width: 50%;
     }
 `;

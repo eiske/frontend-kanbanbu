@@ -1,22 +1,14 @@
-import { Button, Input, Spin, notification } from "antd";
+import { Button, Form, Input, Spin, notification } from "antd";
 import { useEffect, useState } from "react";
 import { Container, FormContainer } from "./index.style";
 import Link from "next/link";
 import useUser from "@hooks/use-user";
 import { useRouter } from "next/router";
 
-type LoginPayload = {
-    email: string;
-    password: string;
-};
-
 const LoginForm = () => {
     const { login, fetching, signed } = useUser();
     const router = useRouter();
-    const [loginPayload, setLoginPayload] = useState<LoginPayload>({
-        email: "",
-        password: "",
-    });
+    const [form] = Form.useForm();
 
     useEffect(() => {
         if (signed) {
@@ -24,48 +16,44 @@ const LoginForm = () => {
         }
     }, [signed]);
 
-    const handleLogin = async () => {
-        await login(loginPayload.email, loginPayload.password);
+    const onFinish = async () => {
+        await login(
+            form.getFieldValue("email"),
+            form.getFieldValue("password")
+        );
     };
-
-    const disableButton =
-        loginPayload.email?.trim() === "" ||
-        loginPayload.password?.trim() === "";
 
     return (
         <Container>
             <div className="logo">
                 <h1>Kanbanbu</h1>
             </div>
-            <FormContainer>
+            <FormContainer form={form} onFinish={onFinish}>
                 <h2>Login</h2>
-                <Input
-                    placeholder="Email"
-                    value={loginPayload.email}
-                    onChange={(e) =>
-                        setLoginPayload({
-                            ...loginPayload,
-                            email: e.target.value,
-                        })
-                    }
-                />
-                <Input.Password
-                    size="small"
-                    placeholder="Senha"
-                    value={loginPayload.password}
-                    onChange={(e) =>
-                        setLoginPayload({
-                            ...loginPayload,
-                            password: e.target.value,
-                        })
-                    }
-                />
-                <Button
-                    disabled={disableButton}
-                    type="primary"
-                    onClick={handleLogin}
-                    loading={fetching}
+                <Form.Item
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Por favor coloque o seu email!",
+                        },
+                    ]}
                 >
+                    <Input placeholder="Email" />
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Por favor coloque a sua senha!",
+                        },
+                    ]}
+                >
+                    <Input.Password size="small" placeholder="Senha" />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit" loading={fetching}>
                     Entrar
                 </Button>
                 <Link href="/sign-up">
