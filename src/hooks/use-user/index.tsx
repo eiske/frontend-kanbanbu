@@ -19,7 +19,7 @@ const useUser = () => {
 
     useEffect(() => {
         setSigned(!!localStorage.getItem(USER_TOKEN_KEY));
-    }, []);
+    }, [localStorage.getItem(USER_TOKEN_KEY)]);
 
     const userLogin = async (email: string, password: string) => {
         try {
