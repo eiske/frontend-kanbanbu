@@ -9,10 +9,13 @@ import { setUserInfo } from "@features/userSession/userSessionSlice";
 import { useEffect, useState } from "react";
 import { notification } from "antd";
 import { useRouter } from "next/router";
+import { UserInfo } from "@services/user/types";
+import { getUserId, getUserName, getUserToken } from "@services/utils";
 
 const useUser = () => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const [user, setUser] = useState<UserInfo>();
     const [isLogin, setIsLogin] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
     const [signed, setSigned] = useState(false);
@@ -21,19 +24,21 @@ const useUser = () => {
         setSigned(!!localStorage.getItem(USER_TOKEN_KEY));
     }, [localStorage.getItem(USER_TOKEN_KEY)]);
 
+    useEffect(() => {
+        setUser({
+            name: getUserName(),
+            id: getUserId(),
+            token: getUserToken(),
+        });
+    }, []);
+
     const userLogin = async (email: string, password: string) => {
         try {
             setIsLogin(true);
             const response = await login(email, password);
-            localStorage.setItem(
-                USER_TOKEN_KEY,
-                JSON.stringify(response.data.token)
-            );
-            localStorage.setItem(USER_ID_KEY, JSON.stringify(response.data.id));
-            localStorage.setItem(
-                USER_NAME_KEY,
-                JSON.stringify(response.data.name)
-            );
+            localStorage.setItem(USER_TOKEN_KEY, response.data.token);
+            localStorage.setItem(USER_ID_KEY, response.data.id);
+            localStorage.setItem(USER_NAME_KEY, response.data.name);
             dispatch(setUserInfo(response?.data));
         } catch (error: any) {
             notification.info({
@@ -79,6 +84,7 @@ const useUser = () => {
         signUp: userSignUp,
         signed,
         fetching: isLogin || isSignUp,
+        user,
     };
 };
 
