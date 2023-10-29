@@ -1,7 +1,6 @@
 import { Button, Input, Spin, notification } from "antd";
 import { useEffect, useState } from "react";
 import { Container, FormContainer } from "./index.style";
-import { LoadingOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import useUser from "@hooks/use-user";
 import { useRouter } from "next/router";
