@@ -22,6 +22,7 @@ const config = {
         "^@pages(.*)$": "<rootDir>/src/pages/$1",
         "^@services(.*)$": "<rootDir>/src/services/$1",
         "^@store(.*)$": "<rootDir>/src/store/$1",
+        "^@helpers(.*)$": "<rootDir>/src/helpers/$1",
         "^@styles(.*)$": "<rootDir>/src/styles/$1",
     },
     coverageDirectory: "coverage",
