@@ -1,5 +1,5 @@
-import { Button, Form, Input, Spin, notification } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Form, Input } from "antd";
+import { useEffect } from "react";
 import { Container, FormContainer } from "./index.style";
 import Link from "next/link";
 import useUser from "@hooks/use-user";
