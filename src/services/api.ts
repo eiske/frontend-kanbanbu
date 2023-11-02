@@ -1,15 +1,15 @@
-import axios from "axios";
-import { getUserToken } from "./utils";
+import axios from 'axios';
+import { getUserToken } from './utils';
 
 const api = axios.create({
-    baseURL: "https://backend-kanbanbu-production.up.railway.app",
+    baseURL: 'https://backend-kanbanbu-production.up.railway.app',
     headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer",
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer',
     },
 });
 
-api.interceptors.request.use(async (config) => {
+api.interceptors.request.use((config) => {
     const tokenResponse = getUserToken();
 
     if (config.headers && tokenResponse) {

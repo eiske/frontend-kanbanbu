@@ -1,7 +1,7 @@
-import { Container, FormContainer } from "./index.style";
-import { Button, Form, Input } from "antd";
-import Link from "next/link";
-import useUser from "@hooks/use-user";
+import { Button, Form, Input } from 'antd';
+import Link from 'next/link';
+import useUser from '@hooks/use-user';
+import { Container, FormContainer } from './index.style';
 
 const SignUpForm = () => {
     const { fetching, signUp } = useUser();
@@ -9,9 +9,9 @@ const SignUpForm = () => {
 
     const onFinish = async () => {
         await signUp(
-            form.getFieldValue("name"),
-            form.getFieldValue("email"),
-            form.getFieldValue("password")
+            form.getFieldValue('name'),
+            form.getFieldValue('email'),
+            form.getFieldValue('password')
         );
     };
 
@@ -27,7 +27,7 @@ const SignUpForm = () => {
                     rules={[
                         {
                             required: true,
-                            message: "Por favor coloque o seu nome!",
+                            message: 'Por favor coloque o seu nome!',
                         },
                     ]}
                 >
@@ -38,7 +38,7 @@ const SignUpForm = () => {
                     rules={[
                         {
                             required: true,
-                            message: "Por favor coloque o seu email!",
+                            message: 'Por favor coloque o seu email!',
                         },
                     ]}
                 >
@@ -49,7 +49,7 @@ const SignUpForm = () => {
                     rules={[
                         {
                             required: true,
-                            message: "Por favor coloque a sua senha!",
+                            message: 'Por favor coloque a sua senha!',
                         },
                     ]}
                 >

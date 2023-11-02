@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import useUser from "../use-user";
-import { Task, getTasks } from "@services/board";
-import { createInitialBoard } from "@helpers/index";
-import Axios from "axios";
-import api from "@services/api";
-import { getUserId } from "@services/utils";
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Task, getTasks } from '@services/board';
+import { createInitialBoard } from '@helpers/index';
+import Axios from 'axios';
+import api from '@services/api';
+import { getUserId } from '@services/utils';
+import useUser from '@hooks/use-user';
 
 type BoardItem = {
     id: number;
@@ -28,17 +28,17 @@ const useBoard = () => {
     const [boardTasksLoad, setBoardTasksLoad] = useState(false);
     const [boardUpdate, setBoardUpdate] = useState(false);
     const [board, setBoard] = useState<any>();
-    const [cardId, setCardId] = useState("");
-    const [text, setText] = useState("");
-    const [description, setDescription] = useState("");
-    const [column, setColumn] = useState("Tarefas");
-    const [columnType, setColumnType] = useState("");
-    const [columnTypeToDelete, setColumnTypeToDelete] = useState("");
+    const [cardId, setCardId] = useState('');
+    const [text, setText] = useState('');
+    const [description, setDescription] = useState('');
+    const [column, setColumn] = useState('Tarefas');
+    const [columnType, setColumnType] = useState('');
+    const [columnTypeToDelete, setColumnTypeToDelete] = useState('');
     const [open, setOpen] = useState(false);
     const [taskDueDate, setTaskDueDate] = useState([]);
-    const [priority, setPriority] = useState("");
-    const [modalMode, setModalMode] = useState("Salvar");
-    const [searchTermTitle, setSearchTermTitle] = useState("");
+    const [priority, setPriority] = useState('');
+    const [modalMode, setModalMode] = useState('Salvar');
+    const [searchTermTitle, setSearchTermTitle] = useState('');
     const [searchTermPriority, setSearchTermPriority] = useState(undefined);
     const [addTaskLoad, setAddTaskLoad] = useState(false);
     const [searchTermTaskDueData, setSearchTermTaskDueData] = useState({
@@ -46,32 +46,31 @@ const useBoard = () => {
         max: 0,
     });
 
-    const getInitialBoardState = async () => {
+    const getInitialBoardState = useCallback(async () => {
         setBoardTasksLoad(true);
         const response = await getTasks();
-        const { completedList, doingList, todoList } =
-            createInitialBoard(response);
+        const { completedList, doingList, todoList } = createInitialBoard(response);
         const initialState = {
             Tarefas: {
-                title: "Tarefas",
+                title: 'Tarefas',
                 items: todoList,
-                columnType: "todo",
+                columnType: 'todo',
             },
             Fazendo: {
-                title: "Fazendo",
+                title: 'Fazendo',
                 items: doingList,
-                columnType: "doing",
+                columnType: 'doing',
             },
             Concluído: {
-                title: "Concluído",
+                title: 'Concluído',
                 items: completedList,
-                columnType: "completed",
+                columnType: 'completed',
             },
         };
 
         setBoard(initialState);
         setBoardTasksLoad(false);
-    };
+    }, []);
 
     const handleDragEnd = async (destination: any, source: any) => {
         if (!destination) {
@@ -79,8 +78,8 @@ const useBoard = () => {
         }
 
         if (
-            destination.index === source.index &&
-            destination.droppableId === source.droppableId
+            destination.index === source.index
+            && destination.droppableId === source.droppableId
         ) {
             return;
         }
@@ -88,7 +87,7 @@ const useBoard = () => {
         const itemCopy = { ...board[source.droppableId].items[source.index] };
 
         setBoard((prev: any) => {
-            prev = { ...prev };
+            // prev = { ...prev };
             prev[source.droppableId].items.splice(source.index, 1);
 
             prev[destination.droppableId].items.splice(
@@ -106,8 +105,8 @@ const useBoard = () => {
                     id: cardId,
                     users_id: getUserId(),
                     title: text,
-                    description: description,
-                    priority: priority,
+                    description,
+                    priority,
                     due_date_start: taskDueDate[0],
                     due_date_end: taskDueDate[1],
                 });
@@ -115,12 +114,12 @@ const useBoard = () => {
                     `/user/board-tasks-${columnTypeToDelete}/${cardId}`
                 );
             } catch (error: any) {
-                /*notification.info({
+                /* notification.info({
               message: `${error?.response?.data?.error}`,
               placement: 'top',
-            });*/
+            }); */
                 console.log(
-                    "error?.response?.data?.error",
+                    'error?.response?.data?.error',
                     error?.response?.data?.error
                 );
             }
@@ -129,7 +128,7 @@ const useBoard = () => {
 
     useEffect(() => {
         getInitialBoardState();
-    }, []);
+    }, [getInitialBoardState]);
 
     return {
         board,

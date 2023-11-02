@@ -3,10 +3,10 @@ import calendarReducer from '@/features/calendarDate/calendarDateSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
-  reducer: {
-    userSession: userSessionReducer,
-    calendarDate: calendarReducer
-  },
+    reducer: {
+        userSession: userSessionReducer,
+        calendarDate: calendarReducer,
+    },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

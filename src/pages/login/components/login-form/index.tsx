@@ -1,9 +1,9 @@
-import { Button, Form, Input } from "antd";
-import { useEffect } from "react";
-import { Container, FormContainer } from "./index.style";
-import Link from "next/link";
-import useUser from "@hooks/use-user";
-import { useRouter } from "next/router";
+import { Button, Form, Input } from 'antd';
+import { useEffect } from 'react';
+import Link from 'next/link';
+import useUser from '@hooks/use-user';
+import { useRouter } from 'next/router';
+import { Container, FormContainer } from './index.style';
 
 const LoginForm = () => {
     const { login, fetching, signed } = useUser();
@@ -12,14 +12,14 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (signed) {
-            router.push("/");
+            router.push('/');
         }
     }, [signed]);
 
     const onFinish = async () => {
         await login(
-            form.getFieldValue("email"),
-            form.getFieldValue("password")
+            form.getFieldValue('email'),
+            form.getFieldValue('password')
         );
     };
 
@@ -35,7 +35,7 @@ const LoginForm = () => {
                     rules={[
                         {
                             required: true,
-                            message: "Por favor coloque o seu email!",
+                            message: 'Por favor coloque o seu email!',
                         },
                     ]}
                 >
@@ -46,7 +46,7 @@ const LoginForm = () => {
                     rules={[
                         {
                             required: true,
-                            message: "Por favor coloque a sua senha!",
+                            message: 'Por favor coloque a sua senha!',
                         },
                     ]}
                 >

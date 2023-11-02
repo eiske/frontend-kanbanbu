@@ -1,16 +1,16 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import {
     USER_ID_KEY,
     USER_NAME_KEY,
     USER_TOKEN_KEY,
-} from "@constants/storage-keys";
-import { login, signUp } from "@services/user";
-import { setUserInfo } from "@features/userSession/userSessionSlice";
-import { useEffect, useState } from "react";
-import { notification } from "antd";
-import { useRouter } from "next/router";
-import { UserInfo } from "@services/user/types";
-import { getUserId, getUserName, getUserToken } from "@services/utils";
+} from '@constants/storage-keys';
+import { login, signUp } from '@services/user';
+import { setUserInfo } from '@features/userSession/userSessionSlice';
+import { useEffect, useState } from 'react';
+import { notification } from 'antd';
+import { useRouter } from 'next/router';
+import { UserInfo } from '@services/user/types';
+import { getUserId, getUserName, getUserToken } from '@services/utils';
 
 const useUser = () => {
     const dispatch = useDispatch();
@@ -44,10 +44,10 @@ const useUser = () => {
             notification.info({
                 message: `${
                     error?.response?.data?.error === undefined
-                        ? "Serviço indisponível"
+                        ? 'Serviço indisponível'
                         : error?.response?.data?.error
                 }`,
-                placement: "top",
+                placement: 'top',
             });
         } finally {
             setIsLogin(false);
@@ -63,18 +63,18 @@ const useUser = () => {
             setIsSignUp(true);
             await signUp(name, email, password);
             notification.success({
-                message: `Usuário cadastrado!`,
-                placement: "top",
+                message: 'Usuário cadastrado!',
+                placement: 'top',
             });
-            router.push("/login");
+            await router.push('/login');
         } catch (error: any) {
             notification.info({
                 message: `${
                     error?.response?.data?.error === undefined
-                        ? "Serviço indisponível"
+                        ? 'Serviço indisponível'
                         : error?.response?.data?.error
                 }`,
-                placement: "top",
+                placement: 'top',
             });
         }
     };

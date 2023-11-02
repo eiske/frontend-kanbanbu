@@ -1,13 +1,13 @@
-import store from "@/store";
-import { ConfigProvider } from "antd";
-import type { AppProps } from "next/app";
-import { Provider } from "react-redux";
-import { ThemeProvider } from "styled-components";
-import { GlobalStyle } from "@/styles/globalStyles";
-import { defaultTheme } from "@/styles/theme/default";
-import { ReactElement, ReactNode } from "react";
-import { NextPage } from "next";
-import Head from "next/head";
+import store from '@/store';
+import { ConfigProvider } from 'antd';
+import type { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from '@/styles/globalStyles';
+import { defaultTheme } from '@/styles/theme/default';
+import { ReactElement, ReactNode } from 'react';
+import { NextPage } from 'next';
+import Head from 'next/head';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout: (page: ReactElement) => ReactNode;
@@ -17,7 +17,7 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout = Component?.getLayout ?? ((page) => page);
 
     return (
@@ -41,4 +41,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             </ConfigProvider>
         </Provider>
     );
-}
+};
+
+export default App;

@@ -1,11 +1,11 @@
-import { USER_TOKEN_KEY } from "@/constants/storage-keys";
-import { useRouter } from "next/router";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { USER_TOKEN_KEY } from '@/constants/storage-keys';
+import { useRouter } from 'next/router';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
-const IsAuthed = ({ children }: PropsWithChildren<{}>) => {
+const IsAuthed = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const [isLoggedIn, setIsloggedIn] = useState(false);
-    let redirectUrl = "/login";
+    const redirectUrl = '/login';
 
     useEffect(() => {
         if (isLoggedIn && router.isReady) router.push(router.asPath);
