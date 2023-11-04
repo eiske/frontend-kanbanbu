@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserInfo {
     id: string;
@@ -11,23 +11,23 @@ interface UserSessionState {
 }
 
 const initialState: UserSessionState = {
-  userInfo: {
-    id: "",
-    name: "",
-    token: "",
-  },
+    userInfo: {
+        id: '',
+        name: '',
+        token: '',
+    },
 };
 
 const userSessionSlice = createSlice({
-  name: "userSession",
-  initialState,
-  reducers: {
-    setUserInfo: (state, { payload }: PayloadAction<UserInfo>) => {
-      state.userInfo = payload;
+    name: 'userSession',
+    initialState,
+    reducers: {
+        setUserInfo: (state, { payload }: PayloadAction<UserInfo>) => {
+            state.userInfo = payload;
+        },
     },
-  },
 });
 
-export const userSelector = (state: any): UserInfo => state.userSession.userInfo
+export const userSelector = (state: any): UserInfo => state.userSession.userInfo;
 export const { setUserInfo } = userSessionSlice.actions;
 export default userSessionSlice.reducer;
