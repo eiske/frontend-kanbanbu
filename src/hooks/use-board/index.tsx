@@ -315,14 +315,14 @@ const useBoard = () => {
     }, [getInitialBoardState]);
 
     useEffect(() => {
-        if (user?.name !== '') {
+        if (user) {
             notification.success({
-                message: `Bem vindo ${user?.name}!`,
+                message: `Bem vindo ${user.name}!`,
                 placement: 'bottomLeft',
             });
             // dispatch(setUserInfo({ ...user, name: '' }));
         }
-    }, []);
+    }, [user]);
 
     return {
         addItem,
