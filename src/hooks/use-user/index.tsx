@@ -22,7 +22,7 @@ const useUser = () => {
 
     useEffect(() => {
         setSigned(!!localStorage.getItem(USER_TOKEN_KEY));
-    }, [localStorage.getItem(USER_TOKEN_KEY)]);
+    }, [signed]);
 
     useEffect(() => {
         setUser({
