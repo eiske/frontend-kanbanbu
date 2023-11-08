@@ -22,7 +22,7 @@ const useUser = () => {
 
     useEffect(() => {
         setSigned(!!localStorage.getItem(USER_TOKEN_KEY));
-    }, [signed]);
+    }, []);
 
     useEffect(() => {
         setUser({
@@ -39,6 +39,7 @@ const useUser = () => {
             localStorage.setItem(USER_TOKEN_KEY, response.data.token);
             localStorage.setItem(USER_ID_KEY, response.data.id);
             localStorage.setItem(USER_NAME_KEY, response.data.name);
+            router.push('/');
             dispatch(setUserInfo(response?.data));
         } catch (error: any) {
             notification.info({

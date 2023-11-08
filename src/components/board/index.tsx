@@ -1,18 +1,20 @@
 import useBoard from '@hooks/use-board';
 import {
-    Button, DatePicker, Input, Modal, Popconfirm, Select, Skeleton, Tooltip,
+    Button, Input, Modal, Popconfirm, Select, Skeleton, Tooltip,
 } from 'antd';
 import moment from 'moment';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+    DragDropContext, Droppable, Draggable, DroppableProvided, DraggableProvided, DraggableStateSnapshot,
+} from 'react-beautiful-dnd';
 import { FaPlus, FaCalendarAlt, FaTrash } from 'react-icons/fa';
 import _ from 'lodash';
+import MomentPicker from '@components/DatePicker';
 import {
     AddTaskContainer, BoardContainer, BoardFilter, Card, CardHeader, CardTaskDetails, Column, Container, Item, PriorityColor,
 } from './styles.index';
 
-const { Option } = Select;
 const { TextArea } = Input;
-const { RangePicker } = DatePicker;
+const { RangePicker } = MomentPicker;
 
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 const dialogText = 'Tem certeza que deseja excluir esta tarefa?';
@@ -60,7 +62,6 @@ const Board = () => {
         return <PriorityColor color="#E77669"><p>{prior}</p></PriorityColor>;
     };
 
-    console.log('board: ', board);
     return (
         <Container>
             <h1>Header</h1>
@@ -83,19 +84,32 @@ const Board = () => {
                         placeholder="Prioridade"
                         onChange={onChange}
                         value={priority}
-                    >
-                        <Option value="Alta">Alta</Option>
-                        <Option value="Média">Média</Option>
-                        <Option value="Baixa">Baixa</Option>
-                    </Select>
+                        options={[
+                            {
+                                value: 'Alta',
+                                label: 'Alta',
+                            },
+                            {
+                                value: 'Média',
+                                label: 'Média',
+                            },
+                            {
+                                value: 'Baixa',
+                                label: 'Baixa',
+                            },
+                        ]}
+                    />
                     <RangePicker
                         showTime
                         format={dateFormat}
                         value={
-                            ([
-                                moment(formatDate(taskDueDate, modalMode, 0), dateFormat),
-                                moment(formatDate(taskDueDate, modalMode, 1), dateFormat),
-                            ] as any)
+                            taskDueDate !== undefined ? (
+                                [
+                                    moment(formatDate(taskDueDate, modalMode, 0), dateFormat),
+                                    moment(formatDate(taskDueDate, modalMode, 1), dateFormat),
+                                ]
+                            )
+                                : null
                         }
                         onChange={onDateChange}
                     />
@@ -127,11 +141,22 @@ const Board = () => {
                         placeholder="Prioridade"
                         onChange={(value) => setSearchTermPriority(value)}
                         value={searchTermPriority}
-                    >
-                        <Option value="Alta">Alta</Option>
-                        <Option value="Média">Média</Option>
-                        <Option value="Baixa">Baixa</Option>
-                    </Select>
+                        options={[
+                            {
+                                value: 'Alta',
+                                label: 'Alta',
+                            },
+                            {
+                                value: 'Média',
+                                label: 'Média',
+                            },
+                            {
+                                value: 'Baixa',
+                                label: 'Baixa',
+                            },
+                        ]}
+                    />
+
                     <RangePicker
                         format={dateFormat}
                         onChange={handleDateChangeFilter}
@@ -143,7 +168,7 @@ const Board = () => {
                     {_.map((board), (data, key) => (
                         <Column key={key} onMouseOver={() => setColumnType(data?.columnType)}>
                             <Droppable droppableId={key}>
-                                {(provided, snapshot) => (
+                                {(provided: DroppableProvided) => (
                                     <>
                                         <CardHeader>
                                             <div>
@@ -167,7 +192,7 @@ const Board = () => {
                                                             index={index}
                                                             draggableId={el?.id}
                                                         >
-                                                            {(cardProvided, cardSnapshot) => (
+                                                            {(cardProvided: DraggableProvided, cardSnapshot: DraggableStateSnapshot) => (
                                                                 <Item
                                                                     isDragging={cardSnapshot.isDragging}
                                                                     ref={cardProvided.innerRef}

@@ -1,34 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Task, getTasks } from '@services/board';
+import { getTasks } from '@services/board';
 import { createInitialBoard } from '@helpers/index';
 import { v4 } from 'uuid';
 import moment from 'moment';
-import _ from 'lodash';
 import api from '@services/api';
 import { getUserId } from '@services/utils';
 import useUser from '@hooks/use-user';
 import { message, notification } from 'antd';
-import { setUserInfo } from '@features/userSession/userSessionSlice';
-
-type BoardItem = {
-    id: number;
-    name: string;
-    description: string;
-    priority: string;
-    date: [string, string];
-};
-
-type Board = {
-    title: string;
-    items: BoardItem[] | [];
-    columnType: string;
-};
+import type { DropResult } from 'react-beautiful-dnd';
 
 const useBoard = () => {
-    const dispatch = useDispatch();
     const { user } = useUser();
-    // const user = useSelector(userSelector)
     const [boardTasksLoad, setBoardTasksLoad] = useState(false);
     const [boardUpdate, setBoardUpdate] = useState(false);
     const [board, setBoard] = useState<any>();
@@ -50,7 +33,7 @@ const useBoard = () => {
         max: 0,
     });
 
-    const getInitialBoardState = useCallback(async () => {
+    const getInitialBoardState = async () => {
         setBoardTasksLoad(true);
         const response = await getTasks();
         const { completedList, doingList, todoList } = createInitialBoard(response);
@@ -74,9 +57,9 @@ const useBoard = () => {
 
         setBoard(initialState);
         setBoardTasksLoad(false);
-    }, [boardUpdate]);
+    };
 
-    const handleDragEnd = async (destination: any, source: any) => {
+    const handleDragEnd = useCallback(async ({ destination, source }: DropResult) => {
         if (!destination) {
             return;
         }
@@ -118,17 +101,13 @@ const useBoard = () => {
                     `/user/board-tasks-${columnTypeToDelete}/${cardId}`
                 );
             } catch (error: any) {
-                /* notification.info({
-              message: `${error?.response?.data?.error}`,
-              placement: 'top',
-            }); */
-                console.log(
-                    'error?.response?.data?.error',
-                    error?.response?.data?.error
-                );
+                notification.info({
+                    message: `${error?.response?.data?.error}`,
+                    placement: 'top',
+                });
             }
         }
-    };
+    }, [board, cardId, columnType, columnTypeToDelete, description, priority, taskDueDate, text]);
 
     const handleFillStateForDragEnd = (data: any, el: any) => {
         setColumn(data?.columnType);
@@ -245,8 +224,7 @@ const useBoard = () => {
         setPriority(value);
     };
 
-    const onDateChange = (value: any) => {
-        const date = value;
+    const onDateChange = (date: any) => {
         setTaskDueDate([date[0], date[1]]);
     };
 
@@ -259,16 +237,15 @@ const useBoard = () => {
 
         if ((searchTermTaskDueData.min === 0 && searchTermTaskDueData.max === 0)
           && (searchTermPriority === undefined || searchTermPriority === '')
-          && el?.name?.toLocaleLowerCase().includes(searchTermTitle?.toLocaleLowerCase())
-        ) {
-            return el;
-        }
-        if (searchTermTitle === '' && el?.priority?.toLocaleLowerCase().includes((searchTermPriority).toLocaleLowerCase())
-        ) {
+          && el?.name?.toLocaleLowerCase().includes(searchTermTitle?.toLocaleLowerCase())) {
             return el;
         }
 
-        return el;
+        if (searchTermTitle === '' && el?.priority?.toLocaleLowerCase().includes(searchTermPriority?.toLocaleLowerCase())) {
+            return el;
+        }
+
+        return null;
     };
 
     const handleDateChangeFilter = (value: any) => {
@@ -312,17 +289,7 @@ const useBoard = () => {
 
     useEffect(() => {
         getInitialBoardState();
-    }, [getInitialBoardState]);
-
-    useEffect(() => {
-        if (user) {
-            notification.success({
-                message: `Bem vindo ${user.name}!`,
-                placement: 'bottomLeft',
-            });
-            // dispatch(setUserInfo({ ...user, name: '' }));
-        }
-    }, [user]);
+    }, [boardUpdate]);
 
     return {
         addItem,
