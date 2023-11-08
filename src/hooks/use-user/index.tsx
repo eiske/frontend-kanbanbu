@@ -32,6 +32,11 @@ const useUser = () => {
         });
     }, []);
 
+    const userLogout = () => {
+        localStorage.clear();
+        router.push('/login');
+    };
+
     const userLogin = async (email: string, password: string) => {
         try {
             setIsLogin(true);
@@ -83,6 +88,7 @@ const useUser = () => {
     return {
         login: userLogin,
         signUp: userSignUp,
+        logout: userLogout,
         signed,
         fetching: isLogin || isSignUp,
         user,
