@@ -1,11 +1,14 @@
-import userSessionReducer from '@/features/userSession/userSessionSlice';
-import calendarReducer from '@/features/calendarDate/calendarDateSlice';
+import calendarReducer from '@features/calendarDate/calendarDateSlice';
+import subjectsReducer from '@features/subjects/subjectsSlice';
+import userSessionReducer from '@features/userSession/userSessionSlice';
+
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
     reducer: {
-        userSession: userSessionReducer,
         calendarDate: calendarReducer,
+        subjects: subjectsReducer,
+        userSession: userSessionReducer,
     },
 });
 
