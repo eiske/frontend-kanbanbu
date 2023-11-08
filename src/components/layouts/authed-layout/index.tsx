@@ -1,24 +1,21 @@
-import IsAuthed from "@/components/is-authed";
-import store from "@/store";
-import { Layout } from "antd";
-import { useRouter } from "next/router";
-import { PropsWithChildren, ReactElement } from "react";
-import { Provider } from "react-redux";
-import styles from "./index.module.css";
+import IsAuthed from '@/components/is-authed';
+import store from '@/store';
+import { Layout } from 'antd';
+import { PropsWithChildren, ReactElement } from 'react';
+import { Provider } from 'react-redux';
+import styles from './index.module.css';
+import Header from '../components/header';
 
 const { Content } = Layout;
 
-const AuthedLayout = ({ children }: PropsWithChildren) => {
-    const router = useRouter();
-
-    return (
-        <Provider store={store}>
-            <Layout>
-                <Content className={styles.mainContent}>{children}</Content>
-            </Layout>
-        </Provider>
-    );
-};
+const AuthedLayout = ({ children }: PropsWithChildren) => (
+    <Provider store={store}>
+        <Layout>
+            <Header />
+            <Content className={styles.mainContent}>{children}</Content>
+        </Layout>
+    </Provider>
+);
 
 export const AuthedPageLayout = (page: ReactElement) => (
     <IsAuthed>
