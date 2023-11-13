@@ -5,17 +5,17 @@ interface CalendarDateState {
 }
 
 const initialState: CalendarDateState = {
-  date: [],
+    date: [],
 };
 
 const calendarDateSlice = createSlice({
-  name: 'calendarDate',
-  initialState,
-  reducers: {
-    setCalendarDate: (state, {payload}: PayloadAction<Date>) => {
-      state.date = [...state.date, payload];
+    name: 'calendarDate',
+    initialState,
+    reducers: {
+        setCalendarDate: (state, { payload }: PayloadAction<Date>) => {
+            state.date = [...state.date, payload];
+        },
     },
-  },
 });
 
 export const { setCalendarDate } = calendarDateSlice.actions;

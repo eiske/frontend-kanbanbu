@@ -3,10 +3,12 @@ import { Subject } from '@services/subjects';
 
 interface SubjectsState {
     subjects: Subject[];
+    subject: Subject
 }
 
 const initialState: SubjectsState = {
     subjects: [],
+    subject: {},
 };
 
 const subjectsSlice = createSlice({
@@ -16,9 +18,11 @@ const subjectsSlice = createSlice({
         setSubjectList: (state, { payload }: PayloadAction<Subject[]>) => {
             state.subjects = payload;
         },
+        addSubject: (state, { payload }: PayloadAction<Subject>) => {
+            state.subject = payload;
+        },
     },
 });
 
-export const subjectsSelector = (state: any): Subject[] => state.subjects.subjects;
-export const { setSubjectList } = subjectsSlice.actions;
+export const { setSubjectList, addSubject } = subjectsSlice.actions;
 export default subjectsSlice.reducer;

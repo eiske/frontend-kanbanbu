@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { getTasks } from '@services/board';
 import { createInitialBoard } from '@helpers/index';
 import { v4 } from 'uuid';

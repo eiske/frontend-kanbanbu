@@ -28,6 +28,5 @@ const userSessionSlice = createSlice({
     },
 });
 
-export const userSelector = (state: any): UserInfo => state.userSession.userInfo;
 export const { setUserInfo } = userSessionSlice.actions;
 export default userSessionSlice.reducer;

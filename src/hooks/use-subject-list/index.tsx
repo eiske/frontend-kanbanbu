@@ -5,11 +5,11 @@ import {
 import { saveAs } from 'file-saver';
 import { message, notification } from 'antd';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { setSubjectList } from '@features/subjects/subjectsSlice';
+import { useAppDispatch } from '@hooks/use-redux';
 
 const useSubjectList = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [subjects, setSubjects] = useState<Subject[]>([]);
     const [subjectsLoad, setSubjectsLoad] = useState(false);
     const [updateSubject, setUpdateSubject] = useState(false);

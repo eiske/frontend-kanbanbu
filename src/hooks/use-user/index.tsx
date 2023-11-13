@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import {
     USER_ID_KEY,
     USER_NAME_KEY,
@@ -11,9 +10,10 @@ import { notification } from 'antd';
 import { useRouter } from 'next/router';
 import { UserInfo } from '@services/user/types';
 import { getUserId, getUserName, getUserToken } from '@services/utils';
+import { useAppDispatch } from '@hooks/use-redux';
 
 const useUser = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
     const [user, setUser] = useState<UserInfo>();
     const [isLogin, setIsLogin] = useState(false);
