@@ -1,5 +1,5 @@
 import {
-    Modal, Button, Input, Tooltip, Popconfirm, Card, Skeleton,
+    Modal, Button, Input, Tooltip, Popconfirm, Skeleton,
 } from 'antd';
 import Link from 'next/link';
 import {
@@ -7,8 +7,11 @@ import {
 } from 'react-icons/fa';
 import useSubjectList from '@hooks/use-subject-list';
 import { useRef } from 'react';
+import { Subject } from '@services/subjects';
+import { addSubject } from '@features/subjects/subjectsSlice';
+import { useAppDispatch } from '@hooks/use-redux';
 import {
-    Container, ListContainer, AddSubjectModal, ListInnerContainer, CardContainerList, CardContainer, AddCard,
+    Container, ListContainer, AddSubjectModal, ListInnerContainer, CardContainerList, CardContainer, AddCard, Card,
 } from './index.styles';
 
 const Subjects = () => {
@@ -29,8 +32,13 @@ const Subjects = () => {
         subjects,
         subjectTitle,
     } = useSubjectList();
+    const dispatch = useAppDispatch();
     const subjectTitleBlank = subjectTitle?.trim() === '';
     const fileRef = useRef<any>();
+
+    const onNavigate = (subject: Subject) => {
+        dispatch(addSubject(subject));
+    };
 
     return (
         <Container>
@@ -91,10 +99,16 @@ const Subjects = () => {
                                         </div>
                                         <Link
                                             title={subject.title}
-                                            href={`/subject-annotations/${subject?.title?.replace(/ /g, '-').toLowerCase()}-${subject.subject_id}`}
+                                            href={{
+                                                pathname: '/subject-annotations',
+                                                query: {
+                                                    subjectName: subject?.title?.replace(/ /g, '-').toLowerCase(),
+                                                    subjectId: subject.subject_id,
+                                                },
+                                            }}
                                         >
                                             <Tooltip placement="bottom" title="Ver resumos da disciplina">
-                                                <Card key={subject.subject_id} className="subjectCard">
+                                                <Card onClick={() => onNavigate(subject)} key={subject.subject_id} className="subjectCard">
                                                     <img alt="example" src="https://static.thenounproject.com/png/3282617-200.png" />
                                                     <p>{subject.title}</p>
                                                 </Card>
