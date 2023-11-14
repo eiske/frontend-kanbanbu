@@ -58,6 +58,7 @@
         "react/no-unstable-nested-components": "off",
         "jsx-a11y/no-noninteractive-element-interactions": "off",
         "no-plusplus": "off",
+        "react/require-default-props": "off",
         "react/jsx-filename-extension": [
             1,
             {
