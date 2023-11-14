@@ -1,23 +1,23 @@
 import useBoard from '@hooks/use-board';
 import {
-    Button, Input, Modal, Popconfirm, Select, Skeleton, Tooltip,
+    Button, Input, Modal, Select, Skeleton, Tooltip,
 } from 'antd';
 import moment from 'moment';
-import {
-    DragDropContext, Droppable, Draggable, DroppableProvided, DraggableProvided, DraggableStateSnapshot,
-} from 'react-beautiful-dnd';
-import { FaPlus, FaCalendarAlt, FaTrash } from 'react-icons/fa';
+import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
+import { FaPlus } from 'react-icons/fa';
 import _ from 'lodash';
-import MomentPicker from '@components/DatePicker';
+import { dateFormat } from '@constants/index';
+import MomentPicker from '@components/moment-picker';
+import type { TaskCard, TaskItemType } from '@services/board';
 import {
-    AddTaskContainer, BoardContainer, BoardFilter, Card, CardHeader, CardTaskDetails, Column, Container, Item, PriorityColor,
+    AddTaskContainer, BoardContainer, Card, CardHeader, Column, Container,
 } from './styles.index';
+import BoardFilter from './board-filter';
+import TaskItem from './task-item';
 
 const { TextArea } = Input;
 const { RangePicker } = MomentPicker;
 
-const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-const dialogText = 'Tem certeza que deseja excluir esta tarefa?';
 const cardTaskDetailsText = 'Clique para ver detalhes desta tarefa';
 
 const Board = () => {
@@ -52,15 +52,6 @@ const Board = () => {
         text } = useBoard();
 
     const taskTextsBlank = text?.trim() === '' || description?.trim() === '' || taskDueDate === undefined || priority === undefined;
-
-    const renderPriorityColor = (prior: string) => {
-        if (prior === 'Baixa') {
-            return <PriorityColor color="#BEEC5A"><p>{prior}</p></PriorityColor>;
-        } if (prior === 'Média') {
-            return <PriorityColor color="#EEE950"><p>{prior}</p></PriorityColor>;
-        }
-        return <PriorityColor color="#E77669"><p>{prior}</p></PriorityColor>;
-    };
 
     return (
         <Container>
@@ -126,45 +117,17 @@ const Board = () => {
                     </Button>
                 </AddTaskContainer>
             </Modal>
-            <BoardFilter>
-                <div>
-                    <Input
-                        allowClear
-                        placeholder="Buscar tarefa pelo título"
-                        value={searchTermTitle}
-                        onChange={(e) => setSearchTermTitle(e.target.value)}
-                    />
-                    <Select
-                        allowClear
-                        placeholder="Prioridade"
-                        onChange={(value) => setSearchTermPriority(value)}
-                        value={searchTermPriority}
-                        options={[
-                            {
-                                value: 'Alta',
-                                label: 'Alta',
-                            },
-                            {
-                                value: 'Média',
-                                label: 'Média',
-                            },
-                            {
-                                value: 'Baixa',
-                                label: 'Baixa',
-                            },
-                        ]}
-                    />
-
-                    <RangePicker
-                        format={dateFormat}
-                        onChange={handleDateChangeFilter}
-                    />
-                </div>
-            </BoardFilter>
+            <BoardFilter
+                handleDateChangeFilter={handleDateChangeFilter}
+                searchTermPriority={searchTermPriority}
+                searchTermTitle={searchTermTitle}
+                setSearchTermPriority={setSearchTermPriority}
+                setSearchTermTitle={setSearchTermTitle}
+            />
             <BoardContainer>
                 <DragDropContext onDragEnd={handleDragEnd}>
-                    {_.map((board), (data, key) => (
-                        <Column key={key} onMouseOver={() => setColumnType(data?.columnType)}>
+                    {_.map((board), (data: TaskCard, key) => (
+                        <Column key={key} onMouseOver={() => setColumnType(data.columnType)}>
                             <Droppable droppableId={key}>
                                 {(provided: DroppableProvided) => (
                                     <>
@@ -184,52 +147,18 @@ const Board = () => {
                                         >
                                             {!fetching ? (
                                                 <>
-                                                    {data.items.filter((el: any) => onFilterCard(el)).map((el: any, index: number) => el && (
-                                                        <Draggable
-                                                            key={el?.id}
+                                                    {data.items.filter((el: TaskItemType) => onFilterCard(el)).map((el: any, index: number) => el && (
+                                                        <TaskItem
+                                                            key={el.id}
+                                                            item={el}
                                                             index={index}
-                                                            draggableId={el?.id}
-                                                        >
-                                                            {(cardProvided: DraggableProvided, cardSnapshot: DraggableStateSnapshot) => (
-                                                                <Item
-                                                                    $isDragging={cardSnapshot.isDragging}
-                                                                    ref={cardProvided.innerRef}
-                                                                    {...cardProvided.draggableProps}
-                                                                    {...cardProvided.dragHandleProps}
-                                                                    onMouseOver={() => handleFillStateForDragEnd(data, el)}
-                                                                    onMouseDown={() => handleCurrentCardIdToDelete(data)}
-                                                                >
-                                                                    <Popconfirm
-                                                                        placement="right"
-                                                                        title={dialogText}
-                                                                        onConfirm={() => onDeleteConfirm(data, el, index)}
-                                                                        okText="Sim"
-                                                                        cancelText="Não"
-                                                                    >
-                                                                        <Tooltip placement="right" title="Excluir Tarefa">
-                                                                            <FaTrash />
-                                                                        </Tooltip>
-                                                                    </Popconfirm>
-                                                                    <Tooltip placement="bottom" title={cardTaskDetailsText}>
-                                                                        <CardTaskDetails onClick={() => showModal(data, el, 'edit')}>
-                                                                            <h3>{el?.name}</h3>
-                                                                            <p className="taskDescription">{el?.description}</p>
-                                                                            {renderPriorityColor(el?.priority)}
-                                                                            <div className="taskDate">
-                                                                                <p>
-                                                                                    {moment(el?.date[0]).format(dateFormat)}
-                                                                                    {' '}
-                                                                                    -
-                                                                                    {' '}
-                                                                                    {moment(el?.date[1]).format(dateFormat)}
-                                                                                </p>
-                                                                                <FaCalendarAlt />
-                                                                            </div>
-                                                                        </CardTaskDetails>
-                                                                    </Tooltip>
-                                                                </Item>
-                                                            )}
-                                                        </Draggable>
+                                                            data={data}
+                                                            cardTaskDetailsText={cardTaskDetailsText}
+                                                            onCurrentCardIdToDelete={handleCurrentCardIdToDelete}
+                                                            onFillStateForDragEnd={handleFillStateForDragEnd}
+                                                            onDeleteConfirm={onDeleteConfirm}
+                                                            showModal={showModal}
+                                                        />
                                                     ))}
                                                 </>
                                             ) : <Skeleton active />}

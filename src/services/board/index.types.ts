@@ -14,7 +14,7 @@ export type BoardColumn = {
 };
 
 export type TaskItemType = {
-    date: [string, string];
+    date: string[];
     description: string;
     id: string;
     name: string;

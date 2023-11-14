@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getTasks } from '@services/board';
+import { TaskCard, TaskItemType, getTasks } from '@services/board';
 import { createInitialBoard } from '@helpers/index';
 import { v4 } from 'uuid';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import api from '@services/api';
 import { getUserId } from '@services/utils';
 import useUser from '@hooks/use-user';
@@ -21,16 +21,17 @@ const useBoard = () => {
     const [columnType, setColumnType] = useState('');
     const [columnTypeToDelete, setColumnTypeToDelete] = useState('');
     const [open, setOpen] = useState(false);
-    const [taskDueDate, setTaskDueDate] = useState<any>([]);
+    const [taskDueDate, setTaskDueDate] = useState(['', '']);
     const [priority, setPriority] = useState('');
     const [modalMode, setModalMode] = useState('Salvar');
     const [searchTermTitle, setSearchTermTitle] = useState('');
-    const [searchTermPriority, setSearchTermPriority] = useState('');
+    const [searchTermPriority, setSearchTermPriority] = useState<string>();
     const [addTaskLoad, setAddTaskLoad] = useState(false);
     const [searchTermTaskDueData, setSearchTermTaskDueData] = useState({
         min: 0,
         max: 0,
     });
+    console.log('value: ', taskDueDate);
 
     const getInitialBoardState = async () => {
         setBoardTasksLoad(true);
@@ -73,7 +74,6 @@ const useBoard = () => {
         const itemCopy = { ...board[source.droppableId].items[source.index] };
 
         setBoard((prev: any) => {
-            // prev = { ...prev };
             prev[source.droppableId].items.splice(source.index, 1);
 
             prev[destination.droppableId].items.splice(
@@ -108,17 +108,17 @@ const useBoard = () => {
         }
     }, [board, cardId, columnType, columnTypeToDelete, description, priority, taskDueDate, text]);
 
-    const handleFillStateForDragEnd = (data: any, el: any) => {
-        setColumn(data?.columnType);
-        setText(el?.name);
-        setDescription(el?.description);
-        setPriority(el?.priority);
-        setTaskDueDate(el?.date);
-        setCardId(el?.id);
+    const handleFillStateForDragEnd = (data: TaskCard, el: TaskItemType) => {
+        setText(el.name);
+        setDescription(el.description);
+        setPriority(el.priority);
+        setTaskDueDate(el.date);
+        setCardId(el.id);
+        setColumn(data.columnType);
     };
 
-    const handleCurrentCardIdToDelete = (data: any) => {
-        setColumnTypeToDelete(data?.columnType);
+    const handleCurrentCardIdToDelete = (data: TaskCard) => {
+        setColumnTypeToDelete(data.columnType);
     };
 
     const addItem = async () => {
@@ -174,8 +174,7 @@ const useBoard = () => {
         setOpen(false);
         message.success('Tarefa editada!');
     };
-
-    const removeItem = async (data: any, el: any, index: any) => {
+    const removeItem = async (data: TaskCard, el: TaskItemType, index: number) => {
         try {
             await api.delete(`/user/board-tasks-${data?.columnType}/${el?.id}`);
             message.success('Tarefa removida!');
@@ -195,18 +194,20 @@ const useBoard = () => {
         });
     };
 
-    const onDeleteConfirm = (data: any, el: any, index: any) => {
+    const onDeleteConfirm = (data: TaskCard, el: TaskItemType, index: number) => {
         removeItem(data, el, index);
     };
 
-    const showModal = (data: any, el?: any, mode?: any) => {
+    const showModal = (data: TaskCard, el?: TaskItemType, mode?: any) => {
+        if (el) {
+            setText(el.name);
+            setDescription(el.description);
+            setPriority(el.priority);
+            setTaskDueDate(el.date);
+        }
         setOpen(true);
         setColumn(data.title);
-        setText(el?.name);
-        setDescription(el?.description);
-        setPriority(el?.priority);
-        setTaskDueDate(el?.date);
-        setColumnType(data?.columnType);
+        setColumnType(data.columnType);
 
         if (mode === 'edit') {
             setModalMode('Editar');
@@ -219,7 +220,7 @@ const useBoard = () => {
         setOpen(false);
     };
 
-    const onChange = (value: any) => {
+    const onChange = (value: string) => {
         setPriority(value);
     };
 
@@ -227,7 +228,7 @@ const useBoard = () => {
         setTaskDueDate([date[0], date[1]]);
     };
 
-    const onFilterCard = (el: any) => {
+    const onFilterCard = (el: TaskItemType) => {
         const taskDateStart = el?.date !== undefined ? moment(el?.date[0]).valueOf() : moment();
 
         if ((taskDateStart) >= moment(searchTermTaskDueData.min) && (taskDateStart) <= moment(searchTermTaskDueData.max)) {
@@ -240,14 +241,14 @@ const useBoard = () => {
             return el;
         }
 
-        if (searchTermTitle === '' && el?.priority?.toLocaleLowerCase().includes(searchTermPriority?.toLocaleLowerCase())) {
+        if (searchTermTitle === '' && searchTermPriority !== undefined && el?.priority?.toLocaleLowerCase().includes(searchTermPriority.toLocaleLowerCase())) {
             return el;
         }
 
         return null;
     };
 
-    const handleDateChangeFilter = (value: any) => {
+    const handleDateChangeFilter = (value: [Moment, Moment]) => {
         const date = value;
 
         if (date === null) {
@@ -268,7 +269,7 @@ const useBoard = () => {
         }
     };
 
-    const formatDate = (date: any, mode: any, arrayPosition: any) => {
+    const formatDate = (date: string[], mode: string, arrayPosition: number) => {
         if (mode === 'Editar') {
             const d = new Date(date[arrayPosition]);
             let month = `${d.getMonth() + 1}`;
