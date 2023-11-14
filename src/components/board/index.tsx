@@ -64,8 +64,6 @@ const Board = () => {
 
     return (
         <Container>
-            <h1>Header</h1>
-
             <Modal
                 open={open}
                 title={`Coluna "${column}"`}
