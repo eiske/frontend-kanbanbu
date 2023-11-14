@@ -117,7 +117,7 @@ const MarkedInput = () => {
                     </Button>
                 </AddNewPageModal>
             </Modal>
-            <MarkedInputMenu hideMarkdownMenu={hideMarkdownMenu}>
+            <MarkedInputMenu $hideMarkdownMenu={hideMarkdownMenu}>
                 {hideMarkdownMenu
                     ? (
                         <Tooltip placement="right" title="Menu de páginas">
@@ -186,7 +186,7 @@ const MarkedInput = () => {
                 />
             </MarketdInputTextAreaContainer>
             <MarkdownPanel
-                markdownPanelVisible={markdownPanelVisible}
+                $markdownPanelVisible={markdownPanelVisible}
                 rect={selectedCoordinates}
             >
                 <div className="markdownPanel" onMouseDown={(event) => event.preventDefault()}>

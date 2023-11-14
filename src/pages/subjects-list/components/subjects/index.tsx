@@ -117,7 +117,7 @@ const Subjects = () => {
                                     </CardContainer>
                                 ))}
                                 <Tooltip placement="bottom" title="Adicionar Disciplina">
-                                    <AddCard isSubjectsEmpty={subjects.length === 0} onClick={() => showModal('', 'Adicionar')}>
+                                    <AddCard $isSubjectsEmpty={subjects.length === 0} onClick={() => showModal('', 'Adicionar')}>
                                         <div className="addCardHeader" />
                                         <div className="addCardBody">
                                             <FaPlus />
@@ -125,7 +125,7 @@ const Subjects = () => {
                                     </AddCard>
                                 </Tooltip>
                                 <Tooltip placement="bottom" title="Importar Disciplina">
-                                    <AddCard isSubjectsEmpty={subjects.length === 0} onClick={() => fileRef.current.click()}>
+                                    <AddCard $isSubjectsEmpty={subjects.length === 0} onClick={() => fileRef.current.click()}>
                                         <div className="addCardHeader"><input style={{ display: 'none' }} ref={fileRef} type="file" onChange={readFile} /></div>
                                         <div className="importCard">
                                             <FaFileImport />

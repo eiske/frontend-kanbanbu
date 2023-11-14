@@ -176,7 +176,7 @@ export const CardHeader = styled.div`
     }
 `;
 
-export const Item = styled('div')<{isDragging: boolean}>`
+export const Item = styled.div<{$isDragging: boolean}>`
     position: relative;
     background: #fff;
     border-radius: 5px;
@@ -208,7 +208,7 @@ export const Item = styled('div')<{isDragging: boolean}>`
     }
 
     & {
-        background: ${(props) => (props.isDragging ? 'rgba(218, 218, 221, 0.8)' : '')};
+        background: ${(props) => (props.$isDragging ? 'rgba(218, 218, 221, 0.8)' : '')};
     }
 `;
 

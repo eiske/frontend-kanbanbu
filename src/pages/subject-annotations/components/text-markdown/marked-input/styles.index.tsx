@@ -13,11 +13,11 @@ export const MarkedInputContainer = styled.div`
     }
 `;
 
-export const MarkedInputMenu = styled('div')<{hideMarkdownMenu: boolean}>`
+export const MarkedInputMenu = styled.div<{$hideMarkdownMenu: boolean}>`
   display: flex;
   flex-direction: column;
   height: 500px;
-  width: ${(props) => (props.hideMarkdownMenu ? '4%' : '18%')};
+  width: ${(props) => (props.$hideMarkdownMenu ? '4%' : '18%')};
   margin-right: 50px;
   border: 1px solid #000;
   border-radius: 0 3px 0 3px;
@@ -42,15 +42,7 @@ export const MarkedInputMenu = styled('div')<{hideMarkdownMenu: boolean}>`
   }
 
   section {
-    display: ${(props) => (props.hideMarkdownMenu ? 'none' : 'block')};
-
-    /* a {
-        width: 100%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        color: #000;
-    } */
+    display: ${(props) => (props.$hideMarkdownMenu ? 'none' : 'block')};
 
     > div {
         display: flex;
@@ -96,7 +88,7 @@ export const MarkedInputMenu = styled('div')<{hideMarkdownMenu: boolean}>`
     font-size: 15px;
     width: 100%;
     font-weight: bold;
-    display: ${(props) => (props.hideMarkdownMenu ? 'none' : 'block')};
+    display: ${(props) => (props.$hideMarkdownMenu ? 'none' : 'block')};
     padding: 10px 0;
 
     > svg {
@@ -121,12 +113,12 @@ export const MarkedInputMenu = styled('div')<{hideMarkdownMenu: boolean}>`
   }
 `;
 
-export const MarkdownPanel = styled('div')<{markdownPanelVisible: string, rect: number}>`
+export const MarkdownPanel = styled.div<{$markdownPanelVisible: string, rect: number}>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  display: ${(props) => props.markdownPanelVisible};
+  display: ${(props) => props.$markdownPanelVisible};
   padding: 0 30px;
   height: 40px;
   border-radius: 2px;

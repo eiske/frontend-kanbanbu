@@ -86,10 +86,6 @@ export const CardContainer = styled.div`
     }
 `;
 
-// export const CardLink = styled(Link)`
-
-// `;
-
 export const Card = styled.div`
     display: flex;
     flex-direction: column;
@@ -113,10 +109,10 @@ export const Card = styled.div`
     }
 `;
 
-export const AddCard = styled('div')<{isSubjectsEmpty: boolean}>`
-    display: ${(props) => (props.isSubjectsEmpty ? 'table' : 'unset')};
+export const AddCard = styled.div<{ $isSubjectsEmpty: boolean }>`
+    display: ${(props) => (props.$isSubjectsEmpty ? 'table' : 'unset')};
     border-radius: 10px;
-    margin:${(props) => (props.isSubjectsEmpty ? '0 auto' : '0px 30px 30px 0px')};
+    margin:${(props) => (props.$isSubjectsEmpty ? '0 auto' : '0px 30px 30px 0px')};
     width: calc(20% - 30px);
     border: 3px dashed lightgray;
 

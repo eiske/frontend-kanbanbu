@@ -192,7 +192,7 @@ const Board = () => {
                                                         >
                                                             {(cardProvided: DraggableProvided, cardSnapshot: DraggableStateSnapshot) => (
                                                                 <Item
-                                                                    isDragging={cardSnapshot.isDragging}
+                                                                    $isDragging={cardSnapshot.isDragging}
                                                                     ref={cardProvided.innerRef}
                                                                     {...cardProvided.draggableProps}
                                                                     {...cardProvided.dragHandleProps}
