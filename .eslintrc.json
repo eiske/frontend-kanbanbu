@@ -57,6 +57,7 @@
         "jsx-a11y/no-static-element-interactions": "off",
         "react/no-unstable-nested-components": "off",
         "jsx-a11y/no-noninteractive-element-interactions": "off",
+        "no-plusplus": "off",
         "react/jsx-filename-extension": [
             1,
             {
