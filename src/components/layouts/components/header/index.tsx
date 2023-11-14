@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Link from 'next/link';
 import useUser from '@hooks/use-user';
 import { Button } from 'antd';
@@ -18,7 +17,7 @@ const Header = () => {
                 <Link href="/agenda" className={router.pathname === '/agenda' ? 'active' : ''}>Agenda</Link>
             </Menu>
             <LogOut>
-                <Button href="#" onClick={logout}>Sair</Button>
+                <Button onClick={logout}>Sair</Button>
             </LogOut>
         </Container>
     );

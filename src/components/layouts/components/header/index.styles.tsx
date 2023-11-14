@@ -79,22 +79,19 @@ export const LogOut = styled.div`
     margin-bottom: 30px;
     margin-left: 60px;
 
-    a {
+    button {
         color: #000;
-        text-decoration: none;
         font-weight: bold;
         margin-left: 10px;
         margin-right: 66px;
         border: 1px solid lightgray;
-        border-radius: 10px 0;
+        border-radius: 10px 10px 0 0;
         padding: 8px 20px;
     }
 
-    a:hover {
+    button:hover {
         background: #000;
-        color: #fff;
-        text-decoration:none;
-        cursor:pointer;
+        color: #fff !important;
         transition: 0.3s;
     }
 
