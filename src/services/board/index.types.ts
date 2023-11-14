@@ -12,3 +12,17 @@ export type BoardColumn = {
     items: Task[];
     columnType: string;
 };
+
+export type TaskItemType = {
+    date: [string, string];
+    description: string;
+    id: string;
+    name: string;
+    priority: string;
+};
+
+export interface TaskCard {
+    title: string;
+    items: TaskItemType[];
+    columnType: string;
+}

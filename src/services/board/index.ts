@@ -1,7 +1,9 @@
 import { AxiosResponse } from 'axios';
 import api from '../api';
 import { getUserId } from '../utils';
-import type { BoardColumn, Task } from './index.types';
+import type {
+    BoardColumn, Task, TaskItemType, TaskCard,
+} from './index.types';
 
 export const getTasks = async () => {
     const [resTasksTodo, resTasksDoing, resTasksCompleted] = await Promise.all<
@@ -19,4 +21,6 @@ export const getTasks = async () => {
     };
 };
 
-export type { BoardColumn, Task };
+export type {
+    BoardColumn, Task, TaskItemType, TaskCard,
+};
