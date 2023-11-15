@@ -84,6 +84,7 @@ const useSubjectList = () => {
             });
         }
         setSubjects((current) => current.filter((subject) => subject.subject_id !== subjectId));
+        setUpdateSubject(!updateSubject);
     };
 
     const onConfirm = (id = '', title = '') => {
@@ -160,7 +161,7 @@ const useSubjectList = () => {
             }
         };
         loadSubjects();
-    }, [updateSubject]);
+    }, [dispatch, updateSubject]);
 
     return {
         fetching: subjectsLoad,

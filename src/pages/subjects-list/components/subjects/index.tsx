@@ -1,18 +1,16 @@
 import {
-    Modal, Button, Input, Tooltip, Popconfirm, Skeleton,
+    Modal, Button, Input, Skeleton,
 } from 'antd';
-import Link from 'next/link';
-import {
-    FaFileDownload, FaTrash, FaPlus, FaFileImport,
-} from 'react-icons/fa';
 import useSubjectList from '@hooks/use-subject-list';
 import { useRef } from 'react';
 import { Subject } from '@services/subjects';
 import { addSubject } from '@features/subjects/subjectsSlice';
 import { useAppDispatch } from '@hooks/use-redux';
 import {
-    Container, ListContainer, AddSubjectModal, ListInnerContainer, CardContainerList, CardContainer, AddCard, Card,
+    Container, ListContainer, AddSubjectModal, ListInnerContainer, CardContainerList,
 } from './index.styles';
+import SubjectCard from './subject-card';
+import AddSubject from './add-subject';
 
 const Subjects = () => {
     const {
@@ -34,7 +32,7 @@ const Subjects = () => {
     } = useSubjectList();
     const dispatch = useAppDispatch();
     const subjectTitleBlank = subjectTitle?.trim() === '';
-    const fileRef = useRef<any>();
+    const fileRef = useRef<HTMLInputElement>();
 
     const onNavigate = (subject: Subject) => {
         dispatch(addSubject(subject));
@@ -76,75 +74,33 @@ const Subjects = () => {
                     </AddSubjectModal>
                 </Modal>
                 <ListInnerContainer>
-                    {!fetching ? (
-                        <>
-                            <CardContainerList>
-                                {subjects?.map((subject) => (
-                                    <CardContainer key={subject.subject_id}>
-                                        <div>
-                                            <Tooltip placement="top" title="Exportar disciplina">
-                                                <FaFileDownload onClick={() => onExportSubject(subject)} />
-                                            </Tooltip>
-                                            <Popconfirm
-                                                placement="right"
-                                                title="Tem certeza que deseja excluir esta disciplina?"
-                                                onConfirm={() => onConfirm(subject?.subject_id, subject?.title?.replace(/ /g, '-').toLowerCase())}
-                                                okText="Sim"
-                                                cancelText="Não"
-                                            >
-                                                <Tooltip placement="top" title="Excluir disicplina">
-                                                    <FaTrash />
-                                                </Tooltip>
-                                            </Popconfirm>
-                                        </div>
-                                        <Link
-                                            title={subject.title}
-                                            href={{
-                                                pathname: '/subject-annotations',
-                                                query: {
-                                                    subjectName: subject?.title?.replace(/ /g, '-').toLowerCase(),
-                                                    subjectId: subject.subject_id,
-                                                },
-                                            }}
-                                        >
-                                            <Tooltip placement="bottom" title="Ver resumos da disciplina">
-                                                <Card onClick={() => onNavigate(subject)} key={subject.subject_id} className="subjectCard">
-                                                    <img alt="example" src="https://static.thenounproject.com/png/3282617-200.png" />
-                                                    <p>{subject.title}</p>
-                                                </Card>
-                                            </Tooltip>
-                                        </Link>
-                                    </CardContainer>
-                                ))}
-                                <Tooltip placement="bottom" title="Adicionar Disciplina">
-                                    <AddCard $isSubjectsEmpty={subjects.length === 0} onClick={() => showModal('', 'Adicionar')}>
-                                        <div className="addCardHeader" />
-                                        <div className="addCardBody">
-                                            <FaPlus />
-                                        </div>
-                                    </AddCard>
-                                </Tooltip>
-                                <Tooltip placement="bottom" title="Importar Disciplina">
-                                    <AddCard $isSubjectsEmpty={subjects.length === 0} onClick={() => fileRef.current.click()}>
-                                        <div className="addCardHeader"><input style={{ display: 'none' }} ref={fileRef} type="file" onChange={readFile} /></div>
-                                        <div className="importCard">
-                                            <FaFileImport />
-                                            <p style={{ textAlign: 'center' }}>{fileName}</p>
-                                            {fileName && (
-                                                <Button style={{ marginBottom: '10px' }} type="primary" key="back" onClick={(e) => onImportSubject(e)}>
-                                                    Importar disciplina
-                                                </Button>
-                                            )}
-                                        </div>
-                                    </AddCard>
-                                </Tooltip>
-                            </CardContainerList>
-                            {subjects.length === 0
+                    <Skeleton active loading={fetching}>
+                        <CardContainerList>
+                            {subjects?.map((subject) => (
+                                <SubjectCard
+                                    key={subject.subject_id}
+                                    subject={subject}
+                                    onConfirm={onConfirm}
+                                    onExportSubject={onExportSubject}
+                                    onNavigate={onNavigate}
+                                />
+                            ))}
+                            <AddSubject
+                                isEmpty={subjects.length === 0}
+                                showModal={showModal}
+                                type="new"
+                            />
+                            <AddSubject
+                                type="import"
+                                fileName={fileName}
+                                onImportSubject={onImportSubject}
+                                readFile={readFile}
+                                mRef={fileRef}
+                            />
+                        </CardContainerList>
+                        {subjects.length === 0
                             && <p className="subjectsEmpty">Nenhuma disciplina cadastrada, clique em um botão para adicionar ou importar uma disciplina</p>}
-                        </>
-                    ) : (
-                        <Skeleton active />
-                    )}
+                    </Skeleton>
                 </ListInnerContainer>
             </ListContainer>
         </Container>
