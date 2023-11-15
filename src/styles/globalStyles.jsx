@@ -5,10 +5,6 @@ export const GlobalStyle = createGlobalStyle`
     background: #fff;
   }
 
-  #root {
-    height: 100%;
-  }
-
   * {
     box-sizing: border-box;
     margin:0;

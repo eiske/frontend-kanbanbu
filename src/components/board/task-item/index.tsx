@@ -2,9 +2,10 @@ import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beau
 import { Popconfirm, Tooltip } from 'antd';
 import { FaCalendarAlt, FaTrash } from 'react-icons/fa';
 import moment from 'moment';
-import { dateFormat } from '@constants/index';
+import { DATE_FORMAT } from '@constants/index';
 import type { TaskCard, TaskItemType } from '@services/board';
-import { CardTaskDetails, Item, PriorityColor } from './index.styles';
+import { CardTaskDetails, Item } from './index.styles';
+import Priority from './priority-color';
 
 interface Props {
     index: number;
@@ -28,62 +29,51 @@ const TaskItem = ({
     item,
     onDeleteConfirm,
     showModal,
-}: Props) => {
-    const renderPriorityColor = (prior: string) => {
-        if (prior === 'Baixa') {
-            return <PriorityColor color="#BEEC5A"><p>{prior}</p></PriorityColor>;
-        } if (prior === 'Média') {
-            return <PriorityColor color="#EEE950"><p>{prior}</p></PriorityColor>;
-        }
-        return <PriorityColor color="#E77669"><p>{prior}</p></PriorityColor>;
-    };
-
-    return (
-        <Draggable
-            index={index}
-            draggableId={item?.id}
-        >
-            {(cardProvided: DraggableProvided, cardSnapshot: DraggableStateSnapshot) => (
-                <Item
-                    $isDragging={cardSnapshot.isDragging}
-                    ref={cardProvided.innerRef}
-                    {...cardProvided.draggableProps}
-                    {...cardProvided.dragHandleProps}
-                    onMouseOver={() => onFillStateForDragEnd(data, item)}
-                    onMouseDown={() => onCurrentCardIdToDelete(data)}
+}: Props) => (
+    <Draggable
+        index={index}
+        draggableId={item?.id}
+    >
+        {(cardProvided: DraggableProvided, cardSnapshot: DraggableStateSnapshot) => (
+            <Item
+                $isDragging={cardSnapshot.isDragging}
+                ref={cardProvided.innerRef}
+                {...cardProvided.draggableProps}
+                {...cardProvided.dragHandleProps}
+                onMouseOver={() => onFillStateForDragEnd(data, item)}
+                onMouseDown={() => onCurrentCardIdToDelete(data)}
+            >
+                <Popconfirm
+                    placement="right"
+                    title={dialogText}
+                    onConfirm={() => onDeleteConfirm(data, item, index)}
+                    okText="Sim"
+                    cancelText="Não"
                 >
-                    <Popconfirm
-                        placement="right"
-                        title={dialogText}
-                        onConfirm={() => onDeleteConfirm(data, item, index)}
-                        okText="Sim"
-                        cancelText="Não"
-                    >
-                        <Tooltip placement="right" title="Excluir Tarefa">
-                            <FaTrash />
-                        </Tooltip>
-                    </Popconfirm>
-                    <Tooltip placement="bottom" title={cardTaskDetailsText}>
-                        <CardTaskDetails onClick={() => showModal(data, item, 'edit')}>
-                            <h3>{item?.name}</h3>
-                            <p className="taskDescription">{item?.description}</p>
-                            {renderPriorityColor(item?.priority)}
-                            <div className="taskDate">
-                                <p>
-                                    {moment(item?.date[0]).format(dateFormat)}
-                                    {' '}
-                                    -
-                                    {' '}
-                                    {moment(item?.date[1]).format(dateFormat)}
-                                </p>
-                                <FaCalendarAlt />
-                            </div>
-                        </CardTaskDetails>
+                    <Tooltip placement="right" title="Excluir Tarefa">
+                        <FaTrash />
                     </Tooltip>
-                </Item>
-            )}
-        </Draggable>
-    );
-};
+                </Popconfirm>
+                <Tooltip placement="bottom" title={cardTaskDetailsText}>
+                    <CardTaskDetails onClick={() => showModal(data, item, 'edit')}>
+                        <h3>{item?.name}</h3>
+                        <p className="taskDescription">{item?.description}</p>
+                        <Priority priorityLevel={item.priority} />
+                        <div className="taskDate">
+                            <p>
+                                {moment(item?.date[0]).format(DATE_FORMAT)}
+                                {' '}
+                                -
+                                {' '}
+                                {moment(item?.date[1]).format(DATE_FORMAT)}
+                            </p>
+                            <FaCalendarAlt />
+                        </div>
+                    </CardTaskDetails>
+                </Tooltip>
+            </Item>
+        )}
+    </Draggable>
+);
 
 export default TaskItem;

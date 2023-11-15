@@ -1,3 +1,5 @@
+import { PRIORITY_COLORS } from '@constants/index';
+
 export type Task = {
     task_id: string;
     title: string;
@@ -18,7 +20,7 @@ export type TaskItemType = {
     description: string;
     id: string;
     name: string;
-    priority: string;
+    priority: keyof typeof PRIORITY_COLORS;
 };
 
 export interface TaskCard {

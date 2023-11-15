@@ -1,6 +1,6 @@
 import { Input, Select } from 'antd';
 import MomentPicker from '@components/moment-picker';
-import { dateFormat } from '@constants/index';
+import { DATE_FORMAT } from '@constants/index';
 import { Container } from './index.styles';
 
 const { RangePicker } = MomentPicker;
@@ -44,7 +44,7 @@ const BoardFilter = ({ searchTermPriority, searchTermTitle, setSearchTermPriorit
             />
 
             <RangePicker
-                format={dateFormat}
+                format={DATE_FORMAT}
                 onChange={handleDateChangeFilter}
             />
         </div>

@@ -6,7 +6,7 @@ import moment from 'moment';
 import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import { FaPlus } from 'react-icons/fa';
 import _ from 'lodash';
-import { dateFormat } from '@constants/index';
+import { DATE_FORMAT } from '@constants/index';
 import MomentPicker from '@components/moment-picker';
 import type { TaskCard, TaskItemType } from '@services/board';
 import {
@@ -90,12 +90,12 @@ const Board = () => {
                     />
                     <RangePicker
                         showTime
-                        format={dateFormat}
+                        format={DATE_FORMAT}
                         value={
                             taskDueDate !== undefined ? (
                                 [
-                                    moment(formatDate(taskDueDate, modalMode, 0), dateFormat),
-                                    moment(formatDate(taskDueDate, modalMode, 1), dateFormat),
+                                    moment(formatDate(taskDueDate, modalMode, 0), DATE_FORMAT),
+                                    moment(formatDate(taskDueDate, modalMode, 1), DATE_FORMAT),
                                 ]
                             )
                                 : null
@@ -145,9 +145,9 @@ const Board = () => {
                                             ref={provided.innerRef}
                                             {...provided.droppableProps}
                                         >
-                                            {!fetching ? (
+                                            <Skeleton active loading={fetching}>
                                                 <>
-                                                    {data.items.filter((el: TaskItemType) => onFilterCard(el)).map((el: any, index: number) => el && (
+                                                    {data.items.filter((el: TaskItemType) => onFilterCard(el)).map((el: any, index: number) => (
                                                         <TaskItem
                                                             key={el.id}
                                                             item={el}
@@ -161,8 +161,8 @@ const Board = () => {
                                                         />
                                                     ))}
                                                 </>
-                                            ) : <Skeleton active />}
-                                            {provided.placeholder}
+                                                {provided.placeholder}
+                                            </Skeleton>
                                         </Card>
                                     </>
                                 )}
