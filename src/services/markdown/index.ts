@@ -2,22 +2,7 @@ import api from '@services/api';
 import { getUserId } from '@services/utils';
 import latinize from 'latinize';
 
-type SaveType = {
-    annotationBlockValue: string,
-    savePageName: string,
-    saveUrlId: string,
-    savePageId: string,
-    subjectName: string,
-    saveMarkdownId: string
-}
-
-type CreateNewPage = {
-    initialEditorState: any,
-    newPageName: string,
-    subjectPageLink: string,
-    pageId: string,
-    subjectName: string
-}
+import type { CreateNewPage, PageArray, SaveType } from './index.types';
 
 export const saveMarkdown = ({
     annotationBlockValue,
@@ -52,3 +37,5 @@ export const createNewPage = ({
 });
 
 export const deletePage = (markdownId: string) => api.delete(`/user/markdown/${markdownId}`);
+
+export type { CreateNewPage, PageArray, SaveType };

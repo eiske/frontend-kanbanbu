@@ -1,17 +1,18 @@
 import { useRef } from 'react';
-import {
-    FaAngleDoubleLeft, FaAngleDoubleRight, FaPlus, FaRegFile, FaSave, FaTimes, FaTimesCircle,
-} from 'react-icons/fa';
+import { FaSave, FaTimes } from 'react-icons/fa';
 import useMarkDown from '@hooks/use-markdown';
 import {
-    Button, Input, Modal, Popconfirm, Skeleton, Tooltip,
+    Button, Input, Modal, Spin,
 } from 'antd';
 import { useSearchParams } from 'next/navigation';
+import { LoadingOutlined } from '@ant-design/icons';
 import {
-    AddNewPageModal, MarkdownPanel, MarkedInputContainer, MarkedInputMenu, MarketdInputTextAreaContainer,
+    AddNewPageModal, MarkdownPanel, MarkedInputContainer, MarketdInputTextAreaContainer,
 } from './styles.index';
-import { BLOCK_TYPES, INLINE_STYLES } from './helper';
 import TextEditor from './text-editor';
+import BlockStyleControls from './block-style-controls';
+import InlineStyleControls from './inline-style-controls';
+import SideMenu from './side-menu';
 
 const MarkedInput = () => {
     const searchParams = useSearchParams();
@@ -44,47 +45,6 @@ const MarkedInput = () => {
     } = useMarkDown();
     const editor = useRef<any>(null);
 
-    const StyleButton = (props: any) => {
-        const { onToggle, style, label } = props;
-        const onClickButton = (e: any) => {
-            e.preventDefault();
-            onToggle(style);
-        };
-        return <button type="button" className="editorToolBarButton" onMouseDown={onClickButton}>{label}</button>;
-    };
-
-    const BlockStyleControls = (props: any) => {
-        const { onToggle } = props;
-        return (
-            <div>
-                {BLOCK_TYPES.map((type) => (
-                    <StyleButton
-                        key={type.label}
-                        label={type.label}
-                        onToggle={onToggle}
-                        style={type.style}
-                    />
-                ))}
-            </div>
-        );
-    };
-
-    const InlineStyleControls = (props: any) => {
-        const { onToggle } = props;
-        return (
-            <div>
-                {INLINE_STYLES.map((type) => (
-                    <StyleButton
-                        key={type.label}
-                        label={type.label}
-                        onToggle={onToggle}
-                        style={type.style}
-                    />
-                ))}
-            </div>
-        );
-    };
-
     return (
         <MarkedInputContainer>
             <Modal
@@ -108,74 +68,37 @@ const MarkedInput = () => {
                         disabled={newPageName.trim() === ''}
                         style={{
                             opacity: newPageName.trim() === '' ? '' : '0.8',
-                            cursor: newPageName.trim() === '' ? 'not-allowed' : '',
                         }}
-                        onClick={() => onCreateNewPage()}
+                        onClick={onCreateNewPage}
                     >
                         Adicionar
 
                     </Button>
                 </AddNewPageModal>
             </Modal>
-            <MarkedInputMenu $hideMarkdownMenu={hideMarkdownMenu}>
-                {hideMarkdownMenu
-                    ? (
-                        <Tooltip placement="right" title="Menu de páginas">
-                            <FaAngleDoubleRight onClick={() => setHideMarkdownMenu(false)} />
-                        </Tooltip>
-                    )
-                    : <FaAngleDoubleLeft onClick={() => setHideMarkdownMenu(true)} />}
-                <section>
-                    {!fetching ? (
-                        <>
-                            {pageArray.filter((pages: any) => pages.subject_name === subjectTitle?.replace(/ /g, '-').toLowerCase()).map((page: any) => (
-                                <div
-                                    id={page.page_id}
-                                    className={`${activePage === page.page_name && 'activePageLink'}`}
-                                    onClick={() => setActivePage(page.page_name)}
-                                >
-                                    <FaRegFile />
-                                    <Button
-                                        id={page.page_id}
-                                        onClick={() => handlePageLink(page.page_name, page.page_id, page.markdown_id, page.url_id)}
-                                        type="text"
-                                    >
-                                        {page.page_name}
-                                    </Button>
-                                    <Popconfirm
-                                        placement="right"
-                                        title="Realmente deseja excluir está página?"
-                                        onConfirm={() => onConfirmRemove(page.page_id, page.markdown_id)}
-                                        okText="Sim"
-                                        cancelText="Não"
-                                    >
-                                        <Tooltip placement="right" title="Excluir página">
-                                            <FaTimesCircle />
-                                        </Tooltip>
-                                    </Popconfirm>
-                                </div>
-                            ))}
-                        </>
-                    ) : (
-                        <div style={{ padding: '10px' }}>
-                            <Skeleton active />
-                        </div>
-                    )}
-                </section>
-                <footer onClick={() => showNewPageModal()}>
-                    <FaPlus />
-                    Adicionar página
-                </footer>
-            </MarkedInputMenu>
+            <SideMenu
+                activePage={activePage}
+                handlePageLink={handlePageLink}
+                hideMarkdownMenu={hideMarkdownMenu}
+                isLoading={fetching}
+                onConfirmRemove={onConfirmRemove}
+                pageArray={pageArray}
+                setActivePage={setActivePage}
+                setHideMarkdownMenu={setHideMarkdownMenu}
+                showNewPageModal={showNewPageModal}
+                subjectTitle={subjectTitle}
+            />
             <MarketdInputTextAreaContainer>
                 <h1>{subjectTitle}</h1>
-                {fetching ? (
-                    <div className="savingMarkdown">
-                        <FaSave size={25} />
-                        <h3>Salvando...</h3>
-                    </div>
-                ) : <div className="savingMarkdown" />}
-                <h2>{pageName}</h2>
+                <div className="pageName">
+                    <h2>{pageName}</h2>
+                    {fetching && (
+                        <div className="savingMarkdown">
+                            <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} />
+                            <p>salvando...</p>
+                        </div>
+                    )}
+                </div>
                 <TextEditor
                     PageArrayLenght={pageArray.length}
                     editorState={editorState}

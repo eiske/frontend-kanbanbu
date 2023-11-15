@@ -8,6 +8,7 @@ import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSubject } from '@features/subjects/subjectsSlice';
 import {
+    PageArray,
     createNewPage, deletePage, getMarkdown, saveMarkdown,
 } from '@services/markdown';
 import { message, notification } from 'antd';
@@ -24,7 +25,7 @@ const useMarkDown = () => {
     const [selectedCoordinates, setSelectedCoordinates] = useState(0);
     const [markdownPanelVisible, setMarkdownPanelVisible] = useState('block');
     const [hideMarkdownMenu, setHideMarkdownMenu] = useState(false);
-    const [pageArray, setPageArray] = useState([]);
+    const [pageArray, setPageArray] = useState<PageArray[]>([]);
     const [addMarkdownLoad, setAddMarkdownLoad] = useState(false);
     const [addMarkdownUpdate, setAddMarkdownUpdate] = useState(false);
     const [openNewPageModal, setOpenNewPageModal] = useState(false);
@@ -93,11 +94,7 @@ const useMarkDown = () => {
         }
 
         dispatch(addSubject(subject));
-        // router.push(subjectPageLink);
 
-        // setNewPageName('');
-        console.log('newPageName: ', newPageName);
-        console.log('newPageId: ', newPageId);
         setOpenNewPageModal(false);
         setMarkdownPanelVisible('none');
         setPageName(newPageName);
@@ -165,7 +162,7 @@ const useMarkDown = () => {
         if (filteredResult) {
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(JSON.stringify(filteredResult.annotation_block.annotationBlock)))));
         }
-    }, [pageName]);
+    }, [pageArray, pageId, pageName]);
 
     return {
         onCreateNewPage,
