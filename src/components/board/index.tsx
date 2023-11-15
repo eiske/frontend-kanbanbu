@@ -107,7 +107,6 @@ const Board = () => {
                         disabled={!!taskTextsBlank}
                         style={{
                             opacity: taskTextsBlank ? '' : '0.8',
-                            cursor: taskTextsBlank ? 'not-allowed' : '',
                         }}
                         onClick={modalMode !== 'Editar' ? addItem : editItem}
                         loading={fetching}

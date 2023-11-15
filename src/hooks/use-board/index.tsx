@@ -1,28 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
-import { TaskCard, TaskItemType, getTasks } from '@services/board';
+import {
+    TaskCard, TaskItemType, addBoardTask, deleteBoardTask, editTask, getTasks, updateBoardTasks,
+} from '@services/board';
 import { createInitialBoard } from '@helpers/index';
-import { v4 } from 'uuid';
 import moment, { Moment } from 'moment';
-import api from '@services/api';
-import { getUserId } from '@services/utils';
-import useUser from '@hooks/use-user';
 import { message, notification } from 'antd';
 import type { DropResult } from 'react-beautiful-dnd';
 
 const useBoard = () => {
-    const { user } = useUser();
     const [boardTasksLoad, setBoardTasksLoad] = useState(false);
     const [boardUpdate, setBoardUpdate] = useState(false);
     const [board, setBoard] = useState<any>();
     const [cardId, setCardId] = useState('');
-    const [text, setText] = useState('');
-    const [description, setDescription] = useState('');
+    const [text, setText] = useState<string | undefined>('');
+    const [description, setDescription] = useState<string | undefined>('');
     const [column, setColumn] = useState('Tarefas');
     const [columnType, setColumnType] = useState('');
     const [columnTypeToDelete, setColumnTypeToDelete] = useState('');
     const [open, setOpen] = useState(false);
-    const [taskDueDate, setTaskDueDate] = useState(['', '']);
-    const [priority, setPriority] = useState('');
+    const [taskDueDate, setTaskDueDate] = useState<any>();
+    const [priority, setPriority] = useState<string | undefined>('');
     const [modalMode, setModalMode] = useState('Salvar');
     const [searchTermTitle, setSearchTermTitle] = useState('');
     const [searchTermPriority, setSearchTermPriority] = useState<string>();
@@ -31,7 +28,6 @@ const useBoard = () => {
         min: 0,
         max: 0,
     });
-    console.log('value: ', taskDueDate);
 
     const getInitialBoardState = async () => {
         setBoardTasksLoad(true);
@@ -87,18 +83,19 @@ const useBoard = () => {
 
         if (columnType !== columnTypeToDelete) {
             try {
-                await api.post(`/user/board-tasks-${columnType}`, {
-                    id: cardId,
-                    users_id: getUserId(),
+                await updateBoardTasks({
+                    columnType,
+                    cardId,
                     title: text,
                     description,
                     priority,
                     due_date_start: taskDueDate[0],
                     due_date_end: taskDueDate[1],
                 });
-                await api.delete(
-                    `/user/board-tasks-${columnTypeToDelete}/${cardId}`
-                );
+                await deleteBoardTask({
+                    columnTypeToDelete,
+                    cardId,
+                });
             } catch (error: any) {
                 notification.info({
                     message: `${error?.response?.data?.error}`,
@@ -124,9 +121,8 @@ const useBoard = () => {
     const addItem = async () => {
         try {
             setAddTaskLoad(true);
-            await api.post(`/user/board-tasks-${columnType}`, {
-                id: v4(),
-                users_id: user?.id,
+            await addBoardTask({
+                columnType,
                 title: text,
                 description,
                 priority,
@@ -154,8 +150,9 @@ const useBoard = () => {
     const editItem = async () => {
         try {
             setAddTaskLoad(true);
-            await api.put(`/user/board-tasks-${columnType}/${cardId}`, {
-                users_id: user?.id,
+            await editTask({
+                columnType,
+                cardId,
                 title: text,
                 description,
                 priority,
@@ -176,7 +173,10 @@ const useBoard = () => {
     };
     const removeItem = async (data: TaskCard, el: TaskItemType, index: number) => {
         try {
-            await api.delete(`/user/board-tasks-${data?.columnType}/${el?.id}`);
+            await deleteBoardTask({
+                columnTypeToDelete: data?.columnType,
+                cardId: el.id,
+            });
             message.success('Tarefa removida!');
         } catch (error: any) {
             notification.info({
@@ -199,12 +199,10 @@ const useBoard = () => {
     };
 
     const showModal = (data: TaskCard, el?: TaskItemType, mode?: any) => {
-        if (el) {
-            setText(el.name);
-            setDescription(el.description);
-            setPriority(el.priority);
-            setTaskDueDate(el.date);
-        }
+        setText(el?.name);
+        setDescription(el?.description);
+        setPriority(el?.priority);
+        setTaskDueDate(el?.date);
         setOpen(true);
         setColumn(data.title);
         setColumnType(data.columnType);

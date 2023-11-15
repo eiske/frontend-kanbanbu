@@ -41,7 +41,7 @@ const useSubjectList = () => {
         } else {
             try {
                 setSubjectsLoad(true);
-                await addSubject(subjectTitle || fileNameExport);
+                await addSubject(subjectTitle, fileNameExport);
                 setSubjectsLoad(false);
             } catch (error: any) {
                 notification.info({
