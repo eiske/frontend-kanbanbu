@@ -19,6 +19,7 @@ const config = {
         "^@components(.*)$": "<rootDir>/src/components/$1",
         "^@constants(.*)$": "<rootDir>/src/constants/$1",
         "^@hooks(.*)$": "<rootDir>/src/hooks/$1",
+        "^@mocks(.*)$": "<rootDir>/src/__mocks__/$1",
         "^@pages(.*)$": "<rootDir>/src/pages/$1",
         "^@services(.*)$": "<rootDir>/src/services/$1",
         "^@store(.*)$": "<rootDir>/src/store/$1",

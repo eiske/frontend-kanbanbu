@@ -21,6 +21,7 @@
             "@features/*": ["src/features/*"],
             "@helpers/*": ["src/helpers/*"],
             "@hooks/*": ["src/hooks/*"],
+            "@mocks/*": ["src/__mocks__/*"],
             "@pages/*": ["src/pages/*"],
             "@services/*": ["src/services/*"],
             "@store/*": ["src/store/*"],
