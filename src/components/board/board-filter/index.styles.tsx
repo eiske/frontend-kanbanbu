@@ -10,7 +10,7 @@ export const Container = styled.div`
         background: lightgray;
         padding: 5px;
         border-radius: 5px;
-        margin: 20px 0;
+        margin: 56px 0 40px;
 
         > input, .ant-select, .ant-picker {
             width: 100%;

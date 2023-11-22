@@ -130,7 +130,7 @@ const Board = () => {
                             <Droppable droppableId={key}>
                                 {(provided: DroppableProvided) => (
                                     <>
-                                        <CardHeader>
+                                        <CardHeader $title={data.title}>
                                             <div>
                                                 <h3>{data.title}</h3>
                                                 <span>{board?.[data.title].items.length}</span>

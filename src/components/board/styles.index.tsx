@@ -74,12 +74,23 @@ export const Card = styled.div`
     flex-direction: column;
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<{$title: string}>`
     display: flex;
     justify-content: space-between;
     width: 100%;
 
-    background: gray;
+    background: ${(props) => {
+        if (props.$title === 'Tarefas') {
+            return '#ECA5E9';
+        }
+
+        if (props.$title === 'Fazendo') {
+            return '#85C1E3';
+        }
+
+        return '#85E39F';
+    }
+};
     padding: 5px;
 
     > div {

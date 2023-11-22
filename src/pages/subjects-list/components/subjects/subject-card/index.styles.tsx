@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CardContainer = styled.div`
     margin: 20px;
-    background: lightgray;
+    background: #FFF;
     border-radius: 10px;
     margin: 0px 30px 30px 0px;
     width: calc(20% - 30px);
@@ -13,7 +13,7 @@ export const CardContainer = styled.div`
         justify-content: flex-end;
         height: 30px;
 
-        background: #c3c3c3;
+        background: #000;
 
         > svg {
             display: none;
