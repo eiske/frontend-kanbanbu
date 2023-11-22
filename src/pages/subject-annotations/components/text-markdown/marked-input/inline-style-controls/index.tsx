@@ -6,7 +6,7 @@ interface Props {
 }
 
 const InlineStyleControls = ({ onToggle }: Props) => (
-    <div>
+    <div data-testid="inlineControls">
         {INLINE_STYLES.map((type) => (
             <StyleButton
                 key={type.label}
