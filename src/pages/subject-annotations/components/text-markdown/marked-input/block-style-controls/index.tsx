@@ -6,7 +6,7 @@ interface Props {
 }
 
 const BlockStyleControls = ({ onToggle }: Props) => (
-    <div>
+    <div data-testid="controls">
         {BLOCK_TYPES.map((type) => (
             <StyleButton
                 key={type.label}
