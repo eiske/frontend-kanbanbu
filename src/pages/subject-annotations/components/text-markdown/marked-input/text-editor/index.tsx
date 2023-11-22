@@ -34,7 +34,7 @@ const TextEditor = forwardRef<any, Props>(({ PageArrayLenght, pageName, onShowMa
     }
 
     return (
-        <div onClick={(el) => onShowMarkupPanel(el)}>
+        <div onClick={(el) => onShowMarkupPanel(el)} data-testid="editor">
             <Editor
                 ref={ref}
                 editorState={editorState}
