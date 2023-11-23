@@ -5,7 +5,7 @@ export const AddCard = styled.div<{ $isSubjectsEmpty?: boolean }>`
     border-radius: 10px;
     margin:${(props) => (props.$isSubjectsEmpty ? '0 auto' : '0px 30px 30px 0px')};
     width: calc(20% - 30px);
-    border: 3px dashed lightgray;
+    border: 3px dashed #000;
 
     &:hover {
         cursor: pointer;
@@ -34,7 +34,7 @@ export const AddCard = styled.div<{ $isSubjectsEmpty?: boolean }>`
 
         > svg {
             font-size: 100px;
-            color: #BEEC5A;
+            color: #000;
             margin-bottom: 50px;
         }
     }
@@ -49,7 +49,7 @@ export const AddCard = styled.div<{ $isSubjectsEmpty?: boolean }>`
 
         > svg {
             font-size: 100px;
-            color: #BEEC5A;
+            color: #000;
             margin-bottom: 50px;
         }
     }

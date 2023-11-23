@@ -3,15 +3,14 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    padding-top: 24px;
 
     .logo {
-        width: 40%;
         cursor: default;
 
         h1 {
             border-radius: 4px;
-            margin: 0 0 30px 30px;
             font-weight: bold;
             background: black;
             color: white;
@@ -38,19 +37,13 @@ export const Container = styled.div`
 export const Menu = styled.div`
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
-    width: 100%;
 
     a {
         color: #000;
         text-decoration: none;
         font-weight: bold;
-        margin: 10px 40px;
         border: 1px solid lightgray;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
+        border-radius: 10px 10px 0 0;
         padding: 8px 20px;
     }
 
@@ -76,17 +69,15 @@ export const Menu = styled.div`
 export const LogOut = styled.div`
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
-    margin-left: 60px;
 
     button {
         color: #000;
         font-weight: bold;
-        margin-left: 10px;
-        margin-right: 66px;
         border: 1px solid lightgray;
         border-radius: 10px 10px 0 0;
         padding: 8px 20px;
+        display: flex;
+        align-items: center;
     }
 
     button:hover {

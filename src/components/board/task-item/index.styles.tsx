@@ -54,6 +54,7 @@ export const CardTaskDetails = styled.div`
         width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin-bottom: 1rem;
     }
 
     .taskDate {
@@ -66,14 +67,18 @@ export const CardTaskDetails = styled.div`
         width: 100%;
         text-align: center;
         border-radius: 5px;
+        margin-top: 0.5rem;
+        height: 20px;
 
         > p {
             margin: 0 15px 0 0;
+
         }
 
         @media (max-width: 1136px) {
             flex-direction: column;
             padding: 5px;
+            height: 32px;
         }
     }
 `;

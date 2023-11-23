@@ -1,4 +1,10 @@
-.mainContent {
-    height: 100%;
-    min-height: 100vh;
+.mainLayout {
+    background-color: #FBFBFB;
+
+    .mainContent {
+        height: 100%;
+        min-height: 100vh;
+    }
 }
+
+

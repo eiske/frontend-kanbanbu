@@ -10,7 +10,7 @@ const { Content } = Layout;
 
 const AuthedLayout = ({ children }: PropsWithChildren) => (
     <Provider store={store}>
-        <Layout>
+        <Layout className={styles.mainLayout}>
             <Header />
             <Content className={styles.mainContent}>{children}</Content>
         </Layout>
