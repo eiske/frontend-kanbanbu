@@ -20,16 +20,17 @@ export const CardContainer = styled.div`
             font-size: 18px;
             margin-right: 10px;
             cursor: pointer;
+            color: #FFF;
         }
 
         > svg:nth-child(1):hover {
-            color: blue;
+            color: #8BC34A;
             cursor: pointer;
             transition: 0.2s;
         }
 
         > svg:nth-child(2):hover {
-            color: red;
+            color: #FF5722;
             cursor: pointer;
             transition: 0.2s;
         }
