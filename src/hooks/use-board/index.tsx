@@ -6,6 +6,7 @@ import { createInitialBoard } from '@helpers/index';
 import moment, { Moment } from 'moment';
 import { message, notification } from 'antd';
 import type { DropResult } from 'react-beautiful-dnd';
+import { AxiosError } from 'axios';
 
 const useBoard = () => {
     const [boardTasksLoad, setBoardTasksLoad] = useState(false);
@@ -30,29 +31,38 @@ const useBoard = () => {
     });
 
     const getInitialBoardState = async () => {
-        setBoardTasksLoad(true);
-        const response = await getTasks();
-        const { completedList, doingList, todoList } = createInitialBoard(response);
-        const initialState = {
-            Tarefas: {
-                title: 'Tarefas',
-                items: todoList,
-                columnType: 'todo',
-            },
-            Fazendo: {
-                title: 'Fazendo',
-                items: doingList,
-                columnType: 'doing',
-            },
-            Concluído: {
-                title: 'Concluído',
-                items: completedList,
-                columnType: 'completed',
-            },
-        };
+        try {
+            setBoardTasksLoad(true);
+            const response = await getTasks();
+            const { completedList, doingList, todoList } = createInitialBoard(response);
+            const initialState = {
+                Tarefas: {
+                    title: 'Tarefas',
+                    items: todoList,
+                    columnType: 'todo',
+                },
+                Fazendo: {
+                    title: 'Fazendo',
+                    items: doingList,
+                    columnType: 'doing',
+                },
+                Concluído: {
+                    title: 'Concluído',
+                    items: completedList,
+                    columnType: 'completed',
+                },
+            };
 
-        setBoard(initialState);
-        setBoardTasksLoad(false);
+            setBoard(initialState);
+            setBoardTasksLoad(false);
+        } catch (e) {
+            const error = e as AxiosError;
+
+            if (error.response?.status === 401) {
+                localStorage.clear();
+                window.location.replace('/login');
+            }
+        }
     };
 
     const handleDragEnd = useCallback(async ({ destination, source }: DropResult) => {
