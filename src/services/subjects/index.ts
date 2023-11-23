@@ -22,7 +22,7 @@ export const deleteSubjectMarkdown = async (subjectTitle: string) => api.delete(
 
 export const deleteSubject = async (subjectId: string) => api.delete(`/user/subjects/${subjectId}`);
 
-export const exportSubject = async (subject: any) => api.get(`/user/markdown/${getUserId()}/${subject.title.replace(/ /g, '-').toLowerCase()}`);
+export const exportSubject = async (subject: Subject) => api.get(`/user/markdown/${getUserId()}/${subject.title?.replace(/ /g, '-').toLowerCase()}`);
 
 export const importSubject = async (fileContent: string) => api.post('/user/markdownImport', {
     users_id: getUserId(),

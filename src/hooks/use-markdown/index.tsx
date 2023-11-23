@@ -5,7 +5,6 @@ import {
     EditorState, ContentState, RichUtils, convertToRaw, convertFromRaw,
 } from 'draft-js';
 import { debounce } from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
 import { addSubject } from '@features/subjects/subjectsSlice';
 import {
     PageArray,
@@ -16,12 +15,13 @@ import { v4 } from 'uuid';
 import latinize from 'latinize';
 import { initialEditorState } from '@pages/subject-annotations/components/text-markdown/marked-input/helper';
 import { subjectSelector } from '@store/index';
+import { useAppDispatch, useAppSelector } from '@hooks/use-redux';
 
 const useMarkDown = () => {
-    const subject = useSelector(subjectSelector);
+    const subject = useAppSelector(subjectSelector);
     const subjectName = subject?.title?.replace(/ /g, '-').toLowerCase() as string;
     const subjectId = subject?.subject_id;
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [selectedCoordinates, setSelectedCoordinates] = useState(0);
     const [markdownPanelVisible, setMarkdownPanelVisible] = useState('block');
     const [hideMarkdownMenu, setHideMarkdownMenu] = useState(false);
@@ -44,7 +44,6 @@ const useMarkDown = () => {
             await saveMarkdown({ annotationBlockValue, saveMarkdownId, savePageId, savePageName, saveUrlId, subjectName });
             setIsSaving(false);
         } catch (error: any) {
-            console.log('error?.response?.data?.error', error?.response?.data?.error);
             setIsSaving(false);
         }
     }, 1000)).current;
@@ -103,7 +102,7 @@ const useMarkDown = () => {
         setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(JSON.stringify(initialEditorState)))));
     };
 
-    const removePage = async (removePageId: any, removeMarkdownId: string) => {
+    const removePage = async (removePageId: string, removeMarkdownId: string) => {
         try {
             await deletePage(removeMarkdownId);
         } catch (error: any) {
@@ -132,7 +131,7 @@ const useMarkDown = () => {
         setOpenNewPageModal(false);
     };
 
-    const handlePageLink = (toPageName: any, toPageId: any, toMarkdownId: any, toUrlId: any) => {
+    const handlePageLink = (toPageName: string, toPageId: string, toMarkdownId: string, toUrlId: string) => {
         setPageName(toPageName);
         setPageId(toPageId);
         setUrlId(toUrlId);
@@ -158,7 +157,7 @@ const useMarkDown = () => {
     }, [addMarkdownUpdate]);
 
     useEffect(() => {
-        const filteredResult: any = pageArray.find((obj: any) => obj.url_id.includes(pageId));
+        const filteredResult = pageArray.find((obj) => obj.url_id.includes(pageId));
         if (filteredResult) {
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(JSON.stringify(filteredResult.annotation_block.annotationBlock)))));
         }

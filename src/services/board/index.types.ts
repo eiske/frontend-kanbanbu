@@ -4,9 +4,12 @@ export type Task = {
     task_id: string;
     title: string;
     description: string;
-    priority: string;
+    priority: keyof typeof PRIORITY_COLORS;
     due_date_start: string;
     due_date_end: string;
+    email?: string;
+    name?: string;
+    user_id?: string;
 };
 
 export type BoardColumn = {

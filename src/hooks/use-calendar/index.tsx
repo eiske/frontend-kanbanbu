@@ -4,8 +4,17 @@ import { notification } from 'antd';
 import { concat } from 'lodash';
 import { useEffect, useState } from 'react';
 
+type Events = {
+    id: string;
+    startAt: string;
+    endAt: string;
+    summary: string;
+    color: string;
+    allDay: boolean;
+};
+
 const useCalendar = () => {
-    const [demoEvents, setDemoEvents] = useState<any[]>([]);
+    const [demoEvents, setDemoEvents] = useState<Events[]>([]);
     const [calendarLoad, setCalendarLoad] = useState(false);
 
     useEffect(() => {

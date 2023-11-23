@@ -35,22 +35,17 @@ const renderPriorityColor = (priority: string) => {
     return '#EEE950';
 };
 
-export const generateDemoEvents = (taskData: any) => {
+export const generateDemoEvents = (taskData: Task[]) => {
     const events = [];
 
-    const taskEvents = taskData.map((task: any) => {
-        const taskEvent = {
-            id: v4(),
-            startAt: task.due_date_start,
-            endAt: task.due_date_end,
-            summary: task.title,
-            color: renderPriorityColor(task.priority),
-            allDay: false,
-
-        };
-
-        return taskEvent;
-    });
+    const taskEvents = taskData.map((task) => ({
+        id: v4(),
+        startAt: task.due_date_start,
+        endAt: task.due_date_end,
+        summary: task.title,
+        color: renderPriorityColor(task.priority),
+        allDay: false,
+    }));
 
     for (let i = 0; i < taskEvents.length; i++) {
         events.push(taskEvents[i]);
