@@ -76,7 +76,6 @@ export const CardTaskDetails = styled.div`
         }
 
         @media (max-width: 1136px) {
-            flex-direction: column;
             padding: 5px;
             height: 32px;
         }

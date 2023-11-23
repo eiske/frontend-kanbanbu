@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -9,13 +10,8 @@ export const Container = styled.div`
     .logo {
         cursor: default;
 
-        h1 {
-            border-radius: 4px;
-            font-weight: bold;
-            background: black;
-            color: white;
-            text-align: center;
-            padding: 0 50px;
+        img {
+            max-width: 100%;
         }
     }
 
@@ -63,27 +59,27 @@ export const Menu = styled.div`
     @media (max-width: 990px) {
         flex-direction: column;
         text-align: center;
+        gap: 10px;
+        margin-bottom: 10px;
     }
 `;
 
-export const LogOut = styled.div`
+export const LogOut = styled(Button)`
     display: flex;
     justify-content: center;
+    color: #000;
+    font-weight: bold;
+    border: 1px solid lightgray;
+    border-radius: 10px 10px 0 0;
+    padding: 8px 20px;
+    align-items: center;
+    border-color: none;
 
-    button {
-        color: #000;
-        font-weight: bold;
-        border: 1px solid lightgray;
-        border-radius: 10px 10px 0 0;
-        padding: 8px 20px;
-        display: flex;
-        align-items: center;
-    }
-
-    button:hover {
+    &:hover {
         background: #000;
         color: #fff !important;
         transition: 0.3s;
+        border-color: none;
     }
 
     @media (max-width: 990px) {
