@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 export const Container = styled.div`
+    margin: 20px 0;
+
 `;
 
 export const BackButton = styled(Link)`
