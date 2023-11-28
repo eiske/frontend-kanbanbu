@@ -56,7 +56,7 @@ export const AddTaskContainer = styled.div`
 
 export const BoardContainer = styled.div`
     display: flex;
-    margin: 0 19px;
+    margin: 0 20px;
 
     @media (max-width: 990px) {
         flex-direction: column;

@@ -3,29 +3,23 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    align-items: flex-end;
+    justify-content: space-between;
     padding-top: 24px;
+    margin: 0 20px;
 
-    .logo {
-        cursor: default;
-
-        img {
-            max-width: 100%;
-        }
+    img {
+        max-width: 12%;
     }
 
     @media (max-width: 990px) {
+        padding-top: 10px;
         flex-direction: column;
         text-align: center;
+        align-items: center;
 
-        .logo {
-            width: 100%;
-
-            h1 {
-                margin: 0 0 30px 0;
-                border-radius: 0;
-            }
+        img {
+            max-width: 35%;
         }
     }
 `;
@@ -73,7 +67,6 @@ export const LogOut = styled(Button)`
     border-radius: 10px 10px 0 0;
     padding: 8px 20px;
     align-items: center;
-    border-color: none;
 
     &:hover {
         background: #000;

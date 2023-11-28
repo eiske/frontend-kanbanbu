@@ -9,9 +9,7 @@ const Header = () => {
     const router = useRouter();
     return (
         <Container>
-            <div className="logo">
-                <img alt="Plataforma de Organização de Estudos" src="/logo.svg" />
-            </div>
+            <img alt="Plataforma de Organização de Estudos" src="/logo.png" />
             <Menu>
                 <Link href="/" className={router.pathname === '/' ? 'active' : ''}>Board</Link>
                 <Link href="/subjects-list" className={router.pathname === '/subjects-list' ? 'active' : ''}>Disciplinas</Link>
