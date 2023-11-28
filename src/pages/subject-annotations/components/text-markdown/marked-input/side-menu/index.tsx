@@ -16,7 +16,7 @@ interface Props {
     subjectTitle: string | null;
     activePage: string;
     setActivePage: (e: string) => void;
-    handlePageLink: (name: string, id?: string, markdownId?: string, urlId?: string) => void;
+    handlePageLink: (name: string, id: string, markdownId: string, urlId: string) => void;
     onConfirmRemove: (pageId: string, markdownId: string) => void;
     showNewPageModal: () => void;
 

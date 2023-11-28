@@ -24,7 +24,7 @@ const TextEditor = forwardRef<any, Props>(({ PageArrayLenght, pageName, onShowMa
         return styleMap[blockType];
     };
 
-    if (pageName === '' && PageArrayLenght === 0) {
+    if (pageName === '' || PageArrayLenght === 0) {
         return (
             <BlankAnnotationContainer>
                 <FaRegFileAlt />

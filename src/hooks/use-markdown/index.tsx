@@ -81,7 +81,6 @@ const useMarkDown = () => {
     const onCreateNewPage = async () => {
         const newPageId = v4();
         const subjectPageLink = `/subject-annotations/${subjectName}-${subjectId}/${latinize(newPageName.replace(/ /g, '-').toLowerCase())}-${newPageId}`;
-
         try {
             await createNewPage({ initialEditorState, newPageName, pageId: newPageId, subjectName, subjectPageLink });
             setAddMarkdownUpdate(!addMarkdownUpdate);
@@ -94,12 +93,9 @@ const useMarkDown = () => {
 
         dispatch(addSubject(subject));
 
+        setNewPageName('');
         setOpenNewPageModal(false);
         setMarkdownPanelVisible('none');
-        setPageName(newPageName);
-        setActivePage(newPageName);
-        setPageId(newPageId);
-        setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(JSON.stringify(initialEditorState)))));
     };
 
     const removePage = async (removePageId: string, removeMarkdownId: string) => {
@@ -157,7 +153,7 @@ const useMarkDown = () => {
     }, [addMarkdownUpdate]);
 
     useEffect(() => {
-        const filteredResult = pageArray.find((obj) => obj.url_id.includes(pageId));
+        const filteredResult = pageId ? pageArray.find((obj) => obj.url_id.includes(pageId)) : undefined;
         if (filteredResult) {
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(JSON.stringify(filteredResult.annotation_block.annotationBlock)))));
         }

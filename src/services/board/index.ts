@@ -55,13 +55,9 @@ export const updateBoardTasks = ({
 export const deleteBoardTask = ({
     columnTypeToDelete,
     cardId,
-}: TaskPayload) => {
-    console.log('columnTypeToDelete: ', columnTypeToDelete);
-
-    return api.delete(
-        `/user/board-tasks-${columnTypeToDelete}/${cardId}`
-    );
-};
+}: TaskPayload) => api.delete(
+    `/user/board-tasks-${columnTypeToDelete}/${cardId}`
+);
 
 export const addBoardTask = ({
     columnType,

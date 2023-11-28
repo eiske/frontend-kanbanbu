@@ -43,6 +43,7 @@ const useSubjectList = () => {
                 setSubjectsLoad(true);
                 await addSubject(subjectTitle, fileNameExport);
                 setSubjectsLoad(false);
+                setUpdateSubject(!updateSubject);
             } catch (error: any) {
                 notification.info({
                     message: `${error?.response?.data?.error}`,

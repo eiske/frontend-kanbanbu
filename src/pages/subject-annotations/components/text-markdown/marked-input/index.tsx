@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { FaSave, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import useMarkDown from '@hooks/use-markdown';
 import {
     Button, Input, Modal, Spin,
