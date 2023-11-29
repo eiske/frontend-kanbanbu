@@ -29,7 +29,7 @@ const IsAuthed = ({ children }: PropsWithChildren) => {
         }
     }, [user]);
 
-    return <div>{isLoggedIn && children}</div>;
+    return isLoggedIn && children;
 };
 
 export default IsAuthed;
