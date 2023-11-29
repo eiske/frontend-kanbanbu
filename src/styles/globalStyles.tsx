@@ -11,4 +11,15 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Arial', sans-serif;
   }
+
+  .custom-drawer-menu {
+    .ant-drawer-header-title {
+        justify-content: flex-end;
+        button {
+            font-size: 25px;
+            color: #000;
+        }
+    }
+}
+
 `;
