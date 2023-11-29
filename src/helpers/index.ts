@@ -1,3 +1,4 @@
+import { Breakpoint } from 'antd/lib/_util/responsiveObserver';
 import { Task } from '@services/board';
 import { v4 } from 'uuid';
 
@@ -53,3 +54,5 @@ export const generateDemoEvents = (taskData: Task[]) => {
 
     return events;
 };
+
+export const isDesktop = (screens: Partial<Record<Breakpoint, boolean>>) => screens.lg;
