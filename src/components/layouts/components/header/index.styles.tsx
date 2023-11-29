@@ -1,26 +1,26 @@
-import { Button } from 'antd';
+import { AppstoreFilled } from '@ant-design/icons';
+import { Button, Layout } from 'antd';
 import styled from 'styled-components';
 
-export const Container = styled.div`
+const { Header } = Layout;
+
+export const Container = styled(Header)`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    padding-top: 24px;
-    margin: 0 20px;
+    margin: 0;
+    background-color: #9a9b9c3a;
+    line-height: normal;
+    height: 60px;
 
     img {
-        max-width: 12%;
+        align-self: center;
+        width: 180px;
     }
 
     @media (max-width: 990px) {
         padding-top: 10px;
-        flex-direction: column;
-        text-align: center;
         align-items: center;
-
-        img {
-            max-width: 35%;
-        }
     }
 `;
 
@@ -51,10 +51,7 @@ export const Menu = styled.div`
     }
 
     @media (max-width: 990px) {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-        margin-bottom: 10px;
+        display: none;
     }
 `;
 
@@ -76,7 +73,15 @@ export const LogOut = styled(Button)`
     }
 
     @media (max-width: 990px) {
-        flex-direction: column;
-        text-align: center;
+        display: none;
+    }
+`;
+
+export const MenuIcon = styled(AppstoreFilled)`
+    font-size: 32px;
+    cursor: pointer;
+
+    @media screen and (min-width: 992px) {
+        display: none;
     }
 `;

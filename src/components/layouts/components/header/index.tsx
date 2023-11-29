@@ -2,9 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import useUser from '@hooks/use-user';
 import { useRouter } from 'next/router';
-import { Container, Menu, LogOut } from './index.styles';
+import {
+    Container, Menu, LogOut, MenuIcon,
+} from './index.styles';
 
-const Header = () => {
+interface Props {
+    onOpen: () => void;
+}
+
+const Header = ({ onOpen }: Props) => {
     const { logout } = useUser();
     const router = useRouter();
     return (
@@ -18,6 +24,8 @@ const Header = () => {
             <LogOut onClick={logout}>
                 Sair
             </LogOut>
+
+            <MenuIcon onClick={onOpen} />
         </Container>
     );
 };
