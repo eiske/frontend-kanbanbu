@@ -24,7 +24,11 @@ const links: Link[] = [
 
 ];
 
-const MenuArea = () => {
+interface Props {
+    onClose: () => void;
+}
+
+const MenuArea = ({ onClose }: Props) => {
     const router = useRouter();
 
     return (
@@ -35,6 +39,7 @@ const MenuArea = () => {
                         <Link
                             href={link.href}
                             className={router.pathname === link.href ? 'active' : ''}
+                            onClick={onClose}
                         >
                             {link.label}
                         </Link>

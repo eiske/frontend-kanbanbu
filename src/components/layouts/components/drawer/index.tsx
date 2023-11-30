@@ -18,7 +18,7 @@ const Drawer = ({ onClose, open }: Props) => {
             footer={<MenuFooter logout={logout} />}
             className="custom-drawer-menu"
         >
-            <MenuArea />
+            <MenuArea onClose={onClose} />
         </AntDrawer>
     );
 };
