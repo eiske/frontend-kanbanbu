@@ -26,7 +26,7 @@ export const createInitialBoard = ({
     completedList: mapResponseToTasks(tasksCompleted),
 });
 
-const renderPriorityColor = (priority: string) => {
+export const renderPriorityColor = (priority: string) => {
     if (priority === 'Alta') {
         return '#E77669';
     } if (priority === 'Baixa') {
