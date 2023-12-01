@@ -92,7 +92,7 @@ const Board = () => {
                         showTime
                         format={DATE_FORMAT}
                         value={
-                            taskDueDate !== undefined ? (
+                            taskDueDate ? (
                                 [
                                     moment(formatDate(taskDueDate, modalMode, 0), DATE_FORMAT),
                                     moment(formatDate(taskDueDate, modalMode, 1), DATE_FORMAT),
@@ -101,6 +101,7 @@ const Board = () => {
                                 : null
                         }
                         onChange={onDateChange}
+                        placeholder={['Data Inicio', 'Data Fim']}
                     />
                     <Button
                         type="primary"

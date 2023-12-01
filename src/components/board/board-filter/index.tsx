@@ -46,6 +46,7 @@ const BoardFilter = ({ searchTermPriority, searchTermTitle, setSearchTermPriorit
             <RangePicker
                 format={DATE_FORMAT}
                 onChange={handleDateChangeFilter}
+                placeholder={['Data Inicio', 'Data Fim']}
             />
         </div>
     </Container>
