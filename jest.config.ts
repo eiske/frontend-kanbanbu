@@ -11,7 +11,6 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
-
     silent: true,
     testEnvironment: 'jsdom',
     extensionsToTreatAsEsm: ['.ts'],
