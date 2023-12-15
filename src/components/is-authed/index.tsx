@@ -21,7 +21,7 @@ const IsAuthed = ({ children }: PropsWithChildren) => {
     }, []);
 
     useEffect(() => {
-        if (user) {
+        if (user?.name) {
             notification.success({
                 message: `Bem vindo ${user.name}!`,
                 placement: 'bottomLeft',
