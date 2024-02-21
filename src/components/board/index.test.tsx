@@ -1,4 +1,3 @@
-import '../../../.jest/matchMedia';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { mockedBoard } from '@mocks/board';

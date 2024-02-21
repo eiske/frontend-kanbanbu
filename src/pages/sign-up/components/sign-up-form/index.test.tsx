@@ -1,4 +1,4 @@
-import '../../../../../.jest/matchMedia';
+import '@mocks/matchMedia.mock';
 import '@testing-library/jest-dom';
 import {
     fireEvent, render, screen, waitFor,

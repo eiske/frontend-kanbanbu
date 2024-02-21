@@ -1,5 +1,5 @@
+import '@mocks/matchMedia.mock';
 import '@testing-library/jest-dom';
-import '../../../../../.jest/matchMedia';
 import {
     fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
