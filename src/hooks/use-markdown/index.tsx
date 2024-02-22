@@ -13,7 +13,7 @@ import {
 import { message, notification } from 'antd';
 import { v4 } from 'uuid';
 import latinize from 'latinize';
-import { initialEditorState } from '@pages/subject-annotations/components/text-markdown/marked-input/helper';
+import { initialEditorState } from '@components/text-markdown/marked-input/helper';
 import { subjectSelector } from '@store/index';
 import { useAppDispatch, useAppSelector } from '@hooks/use-redux';
 
