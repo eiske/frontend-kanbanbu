@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TaskItem from '.';
@@ -17,8 +16,9 @@ describe('<TaskItem />', () => {
         render(
             <DragDropContext onDragEnd={jest.fn}>
                 <Droppable droppableId="avcdss">
-                    {() => (
-                        <TaskItem
+                    {(provided, snapshot) => (
+                        <div ref={provided.innerRef} {...provided.droppableProps}>
+                            <TaskItem
                             cardTaskDetailsText={cardTaskDetailsText}
                             data={data}
                             onCurrentCardIdToDelete={onCurrentCardIdToDelete}
@@ -28,6 +28,7 @@ describe('<TaskItem />', () => {
                             onDeleteConfirm={onDeleteConfirm}
                             showModal={showModal}
                         />
+                        </div>
                     )}
                 </Droppable>
             </DragDropContext>

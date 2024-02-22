@@ -1,5 +1,4 @@
 /* eslint-disable react/style-prop-object */
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import StyleButton from '.';
 

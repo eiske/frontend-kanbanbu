@@ -1,6 +1,6 @@
+import Calendar from '@components/calendar';
 import { AuthedPageLayout } from '@components/layouts/authed-layout';
 import { NextPageWithLayout } from '@pages/_app';
-import Calendar from './components/calendar';
 
 const Agenda: NextPageWithLayout = () => <Calendar />;
 
