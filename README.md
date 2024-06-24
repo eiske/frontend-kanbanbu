@@ -1,3 +1,3 @@
-# Kanbanbu - Plataforma de Organização de Estudos
+# Kanbanbu - Study Organization Platform
 
-Kanbanbu é uma plataforma web e aplicativo projetados para ajudar estudantes a organizar suas atividades acadêmicas, facilitando a gestão de tarefas, prazos e projetos de forma eficiente e inspirada em metodologias ágeis. Nossa missão é proporcionar aos alunos as ferramentas necessárias para otimizar sua rotina de estudos e, consequentemente, melhorar seu desempenho acadêmico.
+Kanbanbu is a web platform and app designed to help students organize their academic activities, facilitating efficient management of tasks, deadlines, and projects inspired by agile methodologies. Our mission is to provide students with the necessary tools to optimize their study routines and, consequently, improve their academic performance.
